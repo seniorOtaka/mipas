@@ -52,7 +52,7 @@
 /*             04.2001	version 3.7                                             */
 /*             09.2001  version 3.7  on CVS                                     */
 /*             10.2001  version 3.71 MAJ Dicom par CHG                          */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 #ifndef PapyEnumImageGroups3H 
@@ -215,6 +215,19 @@ papTransducerPositionModifierSequenceGr,
 papTransducerOrientationSequenceGr,
 papTransducerOrientationModifierSequenceGr,
 papComments8Gr,
+papFrameType,
+papReferencedRawDataSequence,
+papCreatorVersionUID,
+papDerivationImageSequence,
+papReferringImageEvidenceSequence,
+papSourceImageEvidenceSequence,
+papPixelPresentation,
+papVolumetricProperties,
+papVolumeBasedCalculationTechnique,
+papComplexImageComponent,
+papAcquisitionContrast,
+papDerivationCodeSequence,
+papReferencedGrayscalePresentationStateSequence,
 papEndGroup8
 };
 
@@ -583,6 +596,145 @@ papExposureStatusGr,
 papPhototimerSettingGr,
 papExposureTimeInMSGr,
 papXRayTubeCurrentInMAGr,
+papContentQualification,
+papPulseSequenceName,
+papMRImagingModifierSequence,
+papEchoPulseSequence,
+papInversionRecovery,
+papFlowCompensation,
+papMultipleSpinEcho,
+papMultiPlanarExcitation,
+papPhaseContrast,
+papTimeOfFlightContrast,
+papSpoiling,
+papSteadyStatePulseSequence,
+papEchoPlanarPulseSequence,
+papTagAngleFirstAxis,
+papMagnetizationTransfer,
+papT2Preparation,
+papBloodSignalNulling,
+papSaturationRecovery,
+papSpectrallySelectedSuppression,
+papSpectrallySelectedExcitation,
+papSpatialPreSaturation,
+papTagging,
+papOversamplingPhase,
+papTagSpacingFirstDimension,
+papGeometryOfKSpaceTraversal,
+papSegmentedKSpaceTraversal,
+papRectilinearPhaseEncodeReordering,
+papTagThickness,
+papPartialFourierDirection,
+papGatingSynchronizationTechnique,
+papReceiveCoilManufacturerName,
+papMRReceiveCoilSequence,
+papReceiveCoilType,
+papQuadratureReceiveCoil,
+papMultiCoilDefinitionSequence,
+papMultiCoilConfiguration,
+papMultiCoilElementName,
+papMultiCoilElementUsed,
+papMRTransmitCoilSequence,
+papTransmitCoilManufacturerName,
+papTransmitCoilType,
+papSpectralWidth,
+papChemicalShiftReference,
+papVolumeLocalizationTechnique,
+papMRAcquisitionFrequencyEncodingSteps,
+papDecoupling,
+papDecoupledNucleus,
+papDecouplingFrequency,
+papDecouplingMethod,
+papDecouplingChemicalShiftReference,
+papKSpaceFiltering,
+papTimeDomainFiltering,
+papNumberOfZeroFills,
+papBaselineCorrection,
+papCardiacRRIntervalSpecified,
+papAcquisitionDuration,
+papFrameAcquisitionDatetime,
+papDiffusionDirectionality,
+papDiffusionGradientDirectionSequence,
+papParallelAcquisition,
+papParallelAcquisitionTechnique,
+papInversionTimes,
+papMetaboliteMapDescription,
+papPartialFourier,
+papEffectiveEchoTime,
+papChemicalShiftSequence,
+papCardiacSignalSource,
+papDiffusionBValue,
+papDiffusionGradientOrientation,
+papVelocityEncodingDirection,
+papVelocityEncodingMinimumValue,
+papNumberOfKSpaceTrajectories,
+papCoverageOfKSpace,
+papSpectroscopyAcquisitionPhaseRows,
+papParallelReductionFactorInPlane,
+papTransmitterFrequency,
+papResonantNucleus,
+papFrequencyCorrection,
+papMRSpectroscopyFOVGeometrySequence,
+papSlabThickness,
+papSlabOrientation,
+papMidSlabPosition,
+papMRSpatialSaturationSequence,
+papMRTimingAndRelatedParametersSequence,
+papMREchoSequence,
+papMRModifierSequence,
+papMRDiffusionSequence,
+papCardiacTriggerSequence,
+papMRAveragesSequence,
+papMRFOVGeometrySequence,
+papSpectroscopyAcquisitionDataColumns,
+papVolumeLocalizationSequence,
+papDiffusionAnisotropyType,
+papFrameReferenceDatetime,
+papMetaboliteMapSequence,
+papParallelReductionFactorOutOfPlane,
+papSpectroscopyAcquisitionOutOfPlanePhaseSteps,
+papBulkMotionStatus,
+papParallelReductionFactorSecondInPlane,
+papCardiacBeatRejectionTechnique,
+papRespiratoryMotionCompensation,
+papRespiratorySignalSource,
+papBulkMotionCompensationTechnique,
+papBulkMotionSignal,
+papApplicableSafetyStandardAgency,
+papApplicableSafetyStandardVersion,
+papOperationModeSequence,
+papOperatingModeType,
+papOperationMode,
+papSpecificAbsorptionRateDefinition,
+papGradientOutputType,
+papSpecificAbsorptionRateValue,
+papGradientOutput,
+papFlowCompensationDirection,
+papTaggingDelay,
+papChemicalShiftsMinimumIntegrationLimit,
+papChemicalShiftsMaximumIntegrationLimit,
+papMRVelocityEncodingSequence,
+papFirstOrderPhaseCorrection,
+papWaterReferencedPhaseCorrection,
+papMRSpectroscopyAcquisitionType,
+papRespiratoryMotionStatus,
+papVelocityEncodingMaximumValue,
+papTagSpacingSecondDimension,
+papTagAngleSecondAxis,
+papFrameAcquisitionDuration,
+papMRImageFrameTypeSequence,
+papMRSpectroscopyFrameTypeSequence,
+papMRAcquisitionPhaseEncodingStepsInPlane,
+papMRAcquisitionPhaseEncodingStepsOutOfPlane,
+papSpectroscopyAcquisitionPhaseColumns,
+papCardiacMotionStatus,
+papSpecificAbsorptionRateSequence,
+papRevolutionTime,
+papSingleCollimationWidth,
+papTotalCollimationWidth,
+papTableSpeed,
+papTableFeedPerRotation,
+papSpiralPitchFactor,
 papEndGroup18
 };
 
@@ -644,6 +796,29 @@ papModifiedImageDescriptionGr,
 papImageCommentsGr,
 papOriginalImageIdentificationGr,
 papOriginalImageIdentificationNomenclatureGr,
+papStackID,
+papInStackPositionNumber,
+papFrameAnatomySequence,
+papFrameLaterality,
+papFrameContentSequence,
+papPlanePositionSequence,
+papPlaneOrientationSequence,
+papTemporalPositionIndex,
+papTriggerDelayTime,
+papFrameAcquisitionNumber,
+papDimensionIndexValues,
+papFrameComments,
+papConcatenationUID,
+papInConcatenationNumber,
+papInConcatenationTotalNumber,
+papDimensionOrganizationUID,
+papDimensionIndexPointer,
+papFunctionalGroupSequencePointer,
+papDimensionIndexPrivateCreator,
+papDimensionOrganizationSequence,
+papDimensionSequence,
+papConcatenationFrameOffsetNumber,
+papFunctionalGroupPrivateCreator,
 papEndGroup20
 };
 
@@ -733,6 +908,15 @@ papContrastFrameAveragingGr,
 papMaskSubpixelShiftGr,
 papTIDOffsetGr,
 papMaskOperationExplanationGr,
+papDataPointRows,
+papDataPointColumns,
+papSignalDomain,
+papLargestMonochromePixelValue,
+papDataRepresentation,
+papPixelMatrixSequence,
+papFrameVOILUTSequence,
+papPixelValueTransformationSequence,
+papSignalDomainRows,
 papEndGroup28
 };
 
@@ -962,6 +1146,13 @@ papTemplateExtensionFlagGr,
 paptemplateExtensionOrganizationUIDGr,
 paptemplateExtensionCreatorUIDGr,
 papReferencedContentItemIdentifierGr,
+papRealWorldValueMappingSequence,
+papLUTLabel,
+papRealWorldValueLUTLastValueMapped,
+papRealWorldValueLUTData,
+papRealWorldValueLUTFirstValueMapped,
+papRealWorldValueIntercept,
+papRealWorldValueSlope,
 papEndGroup40
 };
 
@@ -984,6 +1175,16 @@ papReferencedImageSOPClassUIDGr,
 papReferencedImageSOPInstanceUIDGr,
 papImageSequenceGr,
 papEndGroup41
+};
+
+/*	Group42		*/
+
+enum {
+papDocumentTitleGr = 1,
+papEncapsulatedDocumentGr,
+papMIMETypeOfEncapsulatedDocumentGr,
+papSourceInstanceSequenceGr,
+papEndGroup42
 };
 
 /*	Group50		*/
@@ -1189,6 +1390,14 @@ papSupportedImageDisplayFormatsSequenceGr,
 papReferencedFilmBoxSequenceGr,
 papReferencedStoredPrintSequenceGr,
 papEndGroup2000
+};
+
+/*	Group2001		*/
+
+enum {
+pap2001CineIndexGr = 1,
+pap2001PositionIndexGr,
+papEndGroup2001
 };
 
 /*	Group2010		*/
@@ -1856,6 +2065,14 @@ papCurveDataGr,
 papEndGroup5000
 };
 
+/*	Group5200		*/
+
+enum {
+papSharedFunctionalGroupsSequence = 1,
+papPerFrameFunctionalGroupsSequence,
+papEndGroup5200
+};
+
 /*	Group5400		*/
 
 enum {
@@ -1935,6 +2152,14 @@ papInfoFloatGr,
 papMaskDataGr,
 papUINOverlaySequenceGr,
 papEndUINOverlay
+};
+
+/*	7053	 Group 7053 */
+
+enum {
+/* papGroupLength */
+papSUVFactor7053Gr = 1,
+papEndGroup7053
 };
 
 /*	Group7FE0		*/

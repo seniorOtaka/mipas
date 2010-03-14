@@ -51,7 +51,7 @@
 /*             02.1999	version 3.6                                             */
 /*             04.2001	version 3.7                                             */
 /*             09.2001  version 3.7  on CVS                                     */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 
@@ -252,6 +252,12 @@ papFilmSessionLabelGr,
 papMemoryAllocationGr,
 papReferencedFilmBoxSequenceGr,
 papEndGroup2000
+};
+
+/*	Group2001		*/
+
+enum {
+papEndGroup2001
 };
 
 /*	Group2010		*/

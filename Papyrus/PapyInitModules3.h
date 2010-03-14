@@ -52,7 +52,7 @@
 /*             04.2001	version 3.7                                             */
 /*             09.2001  version 3.7  on CVS                                     */
 /*             10.2001  version 3.71 MAJ Dicom par CHG                          */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 #ifndef PapyInitModules3H 
@@ -81,6 +81,7 @@ extern void init_group38();
 extern void init_group3A();
 extern void init_group40();
 extern void init_group41();
+extern void init_group42();
 extern void init_group50();
 extern void init_group54();
 extern void init_group60();
@@ -88,6 +89,7 @@ extern void init_group70();
 extern void init_group88();
 extern void init_group100();
 extern void init_group2000();
+extern void init_group2001();
 extern void init_group2010();
 extern void init_group2020();
 extern void init_group2030();
@@ -109,6 +111,7 @@ extern void init_group4008();
 extern void init_group5000();
 extern void init_group5400();
 extern void init_group6000();
+extern void init_group7053();
 extern void init_group7FE0();
 extern void init_uinoverlay ();
 extern void init_AcquisitionContext ();
@@ -282,6 +285,7 @@ extern void init_group38(SElement[]);
 extern void init_group3A(SElement[]);
 extern void init_group40(SElement[]);
 extern void init_group41(SElement[]);
+extern void init_group42(SElement[]);
 extern void init_group50(SElement[]);
 extern void init_group54(SElement[]);
 extern void init_group60(SElement[]);
@@ -289,6 +293,7 @@ extern void init_group70(SElement[]);
 extern void init_group88(SElement[]);
 extern void init_group100(SElement[]);
 extern void init_group2000(SElement[]);
+extern void init_group2001(SElement[]);
 extern void init_group2010(SElement[]);
 extern void init_group2020(SElement[]);
 extern void init_group2030(SElement[]);
@@ -310,6 +315,7 @@ extern void init_group4008(SElement[]);
 extern void init_group5000(SElement[]);
 extern void init_group5400(SElement[]);
 extern void init_group6000(SElement[]);
+extern void init_group7053(SElement[]);
 extern void init_group7FE0(SElement[]);
 extern void init_uinoverlay (SElement[]);
 extern void init_AcquisitionContext (SElement[]);

@@ -58,7 +58,7 @@
 /*             04.2001	version 3.7                                             */
 /*             09.2001  version 3.7  on CVS                                     */
 /*             10.2001  version 3.71 MAJ Dicom par CHG                          */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 #ifdef Mac
@@ -72,8 +72,11 @@
 #include <math.h>
 
 #include "setjmp.h"
-#include "jpegless.h"       /* interface for JPEG lossless decompressor */
-#include "jpeglib.h"	    /* interface for JPEG lossy decompressor */
+//#include "jpegless.h"       /* interface for JPEG lossless decompressor */
+//#include "jpeglib.h"	    /* interface for JPEG lossy decompressor */
+#include "openjpeg.h"
+#include "jasper.h"
+
 
 #ifdef MAYO_WAVE
 #include "Mayo.h"	/* interface for wavelet decompressor */
@@ -84,7 +87,14 @@
 #include "Papyrus3.h"
 #endif
 	  
+extern PapyShort ExtractJPEGlossy8 (PapyShort inFileNb, PapyUChar *ioImage8P, PapyULong inPixelStart, PapyULong *inOffsetTableP, int inImageNb, int inDepth, int mode);
+extern PapyShort ExtractJPEGlossy12 (PapyShort inFileNb, PapyUChar *ioImage8P, PapyULong inPixelStart, PapyULong *inOffsetTableP, int inImageNb, int inDepth, int mode);
+extern PapyShort ExtractJPEGlossy16 (PapyShort inFileNb, PapyUChar *ioImage8P, PapyULong inPixelStart, PapyULong *inOffsetTableP, int inImageNb, int inDepth, int mode);
+extern void PapyrusLockFunction( int lock);
+extern short UseOpenJpeg;
 
+static char **globalElementPtrs = 0L;
+static int JasperInitialized = 0;
 
 
 /********************************************************************************/
@@ -129,326 +139,361 @@ Papy3GetElement (SElement *inGrOrModP, int inElement, PapyULong *outNbValueP, in
   
 } /* endof Papy3GetElement */
 
-
-
-/********************************************************************************/
-/*									 	*/
-/*	ExtractJPEGlosslessDicom : gets and decode JPEG lossless pixel data	*/
-/*	Nota : the PAPYRUS toolkit JPEG utility is based in part on the work of	*/
-/*	the Independent JPEG Group (see copyright file included)		*/
-/* 	return : the image							*/
-/*										*/
-/********************************************************************************/
-
-PapyShort
-ExtractJPEGlosslessDicom (PapyShort inFileNb, PapyUChar *outBufferP, PapyULong inPixelStart,
-		     	  PapyULong *inOffsetTableP, int inImageNb)
-{
-  PapyUChar	  theTmpBuf [256];
-  PapyUChar	  *theTmpBufP;
-  PapyShort	  theErr;
-  PapyUShort	theGroup, theElement;
-  PapyULong	  i, thePos, theLength;
-  
-/*  
-  void 		*aFSSpec;
-  PAPY_FILE	tmpFile;
-  PapyUChar	*myBufPtr;
+/*
+sample error callback expecting a FILE* client object
 */
-  
-  /* position the file pointer at the begining of the pixel datas */
-  Papy3FSeek (gPapyFile [inFileNb], SEEK_SET, (PapyLong) (inPixelStart + inOffsetTableP [inImageNb - 1]));
-  
-  /* read 8 chars from the file */
-  theTmpBufP = (PapyUChar *) &theTmpBuf [0];
-  i = 8L; 					/* grNb, elemNb & elemLength */
-  if ((theErr = (PapyShort) Papy3FRead (gPapyFile [inFileNb], &i, 1L, theTmpBufP)) < 0)
-  {
-    Papy3FClose (&gPapyFile [inFileNb]);
-    RETURN (theErr);
-  } /* if */
-    
-  thePos     = 0L;
-  theGroup   = Extract2Bytes (theTmpBufP, &thePos);
-  theElement = Extract2Bytes (theTmpBufP, &thePos);
-    
-  /* extract the element length */
-  theLength = Extract4Bytes (theTmpBufP, &thePos);
-  
-  /* if length is 0xFFFFFFFF (undefined) we have to extract it HERE !!! */
-  
-  /* Pixel data fragment not found when expected */
-  if ((theGroup != 0xFFFE) || (theElement != 0xE000)) RETURN (papBadArgument);
-  
-  /******/
-  /* extract the compressed datas from the file and put it in temp file */
-  /******/
-  
-  /* first : create a new file and opens it */
-  /* avoid to create more than one image */
-    /* allocate the buffer to store the temp compressed datas */
-    /* read the compressed stream from the file */
-    /* and put it in the temp file */
-    /* close the temp file */
-    /* and free the allocated memory */
-    /* then reset the file pointer to its previous position */
-/*    
-  strcpy ((char *) theTmpBufP, "Compressed.jpg");
-  theErr = Papy3FCreate ((char *) theTmpBufP, 0, NULL, &aFSSpec);
-  if (theErr == 0)
-  {
-    theErr = Papy3FOpen   (NULL, 'w', 0, &tmpFile, &aFSSpec);
-  
-    myBufPtr = (PapyUChar *) emalloc3 (theLength + 1L);
-  
-    theErr = (PapyShort) Papy3FRead (gPapyFile [inFileNb], &theLength, 1L, myBufPtr);
-  
-    theErr = (PapyShort) Papy3FWrite (tmpFile, &theLength, 1L, (void *) myBufPtr);
-  
-    theErr = Papy3FClose (&tmpFile);
-    efree3 ((void **) &myBufPtr);
-  
-    theErr = (PapyShort) Papy3FSeek (gPapyFile [inFileNb], SEEK_CUR, - (PapyLong) theLength);
-  } /* if ...no error creating the temp file */
-  
-  /******/
-  /******/
-    
-  /* Get ready to receive decompressed rows */
-  JPEGLosslessDecodeImage (gPapyFile [inFileNb], (PapyUShort *) outBufferP, 
-  			   gx0028BitsAllocated [inFileNb], theLength);
-
-  return 0;
-  
-} /* endof ExtractJPEGlosslessDicom */
-
-
-
-/********************************************************************************/
-/*									 	*/
-/*	ExtractJPEGlosslessPap : gets and decode JPEG lossless pixel data	*/
-/*	Nota : the PAPYRUS toolkit JPEG utility is based in part on the work of	*/
-/*	the Independent JPEG Group (see copyright file included)		*/
-/* 	return : the image							*/
-/*										*/
-/********************************************************************************/
-
-PapyShort
-ExtractJPEGlosslessPap (PapyShort inFileNb, PapyUChar *outBufferP, PapyULong inPixelStart,
-		     	PapyULong inLength)
+static void error_callback(const char *msg, void *a)
 {
-  /* position the file pointer at the begining of the pixel datas */
-  Papy3FSeek (gPapyFile [inFileNb], SEEK_SET, (PapyLong) inPixelStart);
-    
-  /* Get ready to receive decompressed rows */
-  JPEGLosslessDecodeImage (gPapyFile [inFileNb], (PapyUShort *) outBufferP, 
-  			   gx0028BitsAllocated [inFileNb], inLength);
-  
-  return 0;
-  
-} /* endof ExtractJPEGlosslessPap */
-
-
-
-/********************************************************************************/
-/*									 	*/
-/*	Needed for the error manager of the JPEG lossy library			*/
-/*										*/
-/********************************************************************************/
-
-struct SErrorMgr 
+//	printf( "%s\r\r", msg);
+}
+/**
+sample warning callback expecting a FILE* client object
+*/
+static void warning_callback(const char *msg, void *a)
 {
-  struct jpeg_error_mgr pub;	/* "public" fields */
+//	printf( "%s\r\r", msg);
+}
 
-  jmp_buf setjmp_buffer;	/* for return to caller */
-}; /* struct */
-
-typedef struct SErrorMgr *SErrorMgrP;
-
-/********************************************************************************/
-/*									 	*/
-/* Here's the routine that will replace the standard error_exit method: 	*/
-/* for JPEG lossy								*/
-/*									 	*/
-/********************************************************************************/
-
-METHODDEF(void)
-my_error_exit (j_common_ptr ioCInfo)
+/**
+sample debug callback expecting no client object
+*/
+static void info_callback(const char *msg, void *a)
 {
-  /* ioCInfo->err really points to a SErrorMgr struct, so coerce pointer */
-  SErrorMgrP theErr = (SErrorMgrP) ioCInfo->err;
+//	printf( "%s\r\r", msg);
+}
 
-  /* Always display the message. */
-  /* We could postpone this until after returning, if we chose. */
-  (*ioCInfo->err->output_message) (ioCInfo);
-
-  /* Return control to the setjmp point */
-#ifdef Mac
-  longjmp (theErr->setjmp_buffer, 1);
-#endif
-
-} /* endofunction my_error_exit */
+static inline int int_ceildivpow2(int a, int b) {
+	return (a + (1 << b) - 1) >> b;
+}
 
 
-
-/********************************************************************************/
-/*									 	*/
-/*	ExtractJPEGlossy : gets and decode JPEG lossy pixel data		*/
-/*	Nota : the PAPYRUS toolkit JPEG utility is based in part on the work of	*/
-/*	the Independent JPEG Group (see copyright file included)		*/
-/* 	return : the image							*/
-/*										*/
-/********************************************************************************/
-
-PapyShort
-ExtractJPEGlossy (PapyShort inFileNb, PapyUChar *ioImage8P, PapyULong inPixelStart,
-		  PapyULong *inOffsetTableP, int inImageNb, int inDepth)
+bool read_JPEG2000_file (void* raw, char *inputdata, size_t inputlength)
 {
-  struct SErrorMgr		theJErr;		 /* the JPEG error manager var */
-  struct jpeg_decompress_struct	theCInfo;
-  PapyUChar			theTmpBuf [256];
-  PapyUChar			*theTmpBufP;
-  PapyUShort			theGroup, theElement;
-  PapyShort			theErr = 0;
-  PapyULong			i, thePos, theLimit;
-  int 				theRowStride;	 	/* physical row width in output buffer */
-  int				theLoop;
-  PapyUChar			*theWrkChP; 		/* ptr to the image */
-  PapyUChar			*theWrkCh8P; 		/* ptr to the image 8 bits */
-  PapyUShort			*theWrkCh16P; 		/* ptr to the image 16 bits */
-  PapyUShort			*theBuffer16P;
-  PapyUChar			*theBuffer8P;
-   
-  
-  /* position the file pointer to the begining of the image */
-  Papy3FSeek (gPapyFile [inFileNb], SEEK_SET, (PapyLong) (inPixelStart + inOffsetTableP [inImageNb - 1]));
-  
-  /* read 8 chars from the file */
-  theTmpBufP = (PapyUChar *) &theTmpBuf [0];
-  i = 8L; 					/* grNb, elemNb & elemLength */
-  if ((theErr = (PapyShort) Papy3FRead (gPapyFile [inFileNb], &i, 1L, theTmpBufP)) < 0)
-  {
-    Papy3FClose (&gPapyFile [inFileNb]);
-    RETURN (theErr);
-  } /* if */
-    
-  thePos     = 0L;
-  theGroup   = Extract2Bytes (theTmpBufP, &thePos);
-  theElement = Extract2Bytes (theTmpBufP, &thePos);
-    
-  /* Pixel data fragment not found when expected */
-  if ((theGroup != 0xFFFE) || (theElement != 0xE000)) RETURN (papBadArgument);
-  
-  /* We set up the normal JPEG error routines, then override error_exit. */
-  theCInfo.err 		 = jpeg_std_error (&theJErr.pub);
-  theJErr.pub.error_exit = my_error_exit;
-  /* Establish the setjmp return context for my_error_exit to use. */
-#ifdef Mac
-  if (setjmp (theJErr.setjmp_buffer)) 
-  {
-    jpeg_destroy_decompress (&theCInfo);
-    return NULL;
-  }/* if */
-#endif
-    
-  /* initialize the JPEG decompression object */
-  jpeg_create_decompress (&theCInfo);
-    
-  /* specify the data source */
-  jpeg_stdio_src (&theCInfo, gPapyFile [inFileNb]);
-    
-  /* read file parameter */
-  (void) jpeg_read_header (&theCInfo, TRUE);
-    
-  if (gArrPhotoInterpret [inFileNb] == MONOCHROME1 ||
-      gArrPhotoInterpret [inFileNb] == MONOCHROME2)
-    theCInfo.out_color_space = JCS_GRAYSCALE;
+	opj_dparameters_t parameters;  /* decompression parameters */
+	opj_event_mgr_t event_mgr;      /* event manager */
+	opj_image_t *image = nil;
+	opj_dinfo_t* dinfo;             /* handle to a decompressor */
+	opj_cio_t *cio;
+	unsigned char *src = (unsigned char*)inputdata; 
+	int file_length = inputlength;
 
-  if (gArrPhotoInterpret [inFileNb] == RGB)
-    theCInfo.out_color_space = JCS_RGB;
-  /* theCInfo.out_color_space = JCS_YCbCr; */
-    
-  /* start the decompressor (set the decompression default params) */
-  (void) jpeg_start_decompress (&theCInfo);
+	/* configure the event callbacks (not required) */
+	memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
+	event_mgr.error_handler = error_callback;
+	event_mgr.warning_handler = warning_callback;
+	event_mgr.info_handler = info_callback;
 
-  /* JSAMPLEs per row in output buffer */
-  theRowStride = theCInfo.output_width * theCInfo.output_components;
-  if (inDepth == 16) 
-    theRowStride *= 2;
-    
-  /* allocate a one-row-high sample array that will go away when done with image */  
-  if (inDepth == 16)
+  /* set decoding parameters to default values */
+  opj_set_default_decoder_parameters(&parameters);
+ 
+  // default blindly copied
+  parameters.cp_layer=0;
+  parameters.cp_reduce=0;
+
+  /* JPEG-2000 codestream */
+  parameters.decod_format = 0;
+  parameters.cod_format = 1;
+
+  /* get a decoder handle */
+  dinfo = opj_create_decompress(CODEC_J2K);
+
+  /* catch events using our callbacks and give a local context */
+  opj_set_event_mgr((opj_common_ptr)dinfo, &event_mgr, NULL);
+
+  /* setup the decoder decoding parameters using user parameters */
+  opj_setup_decoder(dinfo, &parameters);
+  
+  /* open a byte stream */
+  cio = opj_cio_open((opj_common_ptr)dinfo, src, file_length);
+  
+  /* decode the stream and fill the image structure */
+  image = opj_decode(dinfo, cio);
+  if(!image)
   {
-    theBuffer16P = (PapyUShort *) emalloc3 ((PapyULong) theRowStride);
-    theWrkCh16P = (PapyUShort *) ioImage8P;
+    opj_destroy_decompress(dinfo);
+    opj_cio_close(cio);
+    return false;
   }
-  else
-  {
-    theBuffer8P = (PapyUChar *) emalloc3 ((PapyULong) theRowStride);
-    theWrkCh8P  = (PapyUChar *) ioImage8P;
+      
+  /* close the byte stream */
+  opj_cio_close(cio);
+
+  /* free the memory containing the code-stream */
+
+   // Copy buffer
+   for (int compno = 0; compno < image->numcomps; compno++)
+   {
+      opj_image_comp_t *comp = &image->comps[compno];
+
+      int w = image->comps[compno].w;
+      int wr = int_ceildivpow2(image->comps[compno].w, image->comps[compno].factor);
+	    int numcomps = image->numcomps;
+	   
+      int hr = int_ceildivpow2(image->comps[compno].h, image->comps[compno].factor);
+	   
+	   if( wr == w && numcomps == 1)
+	   {
+		   if (comp->prec <= 8)
+		   {
+			   uint8_t *data8 = (uint8_t*)raw + compno;
+			   int *data = image->comps[compno].data;
+			   int i = wr * hr;
+			   while( i -- > 0)
+				   *data8++ = (uint8_t) *data++;
+		   }
+		   else if (comp->prec <= 16)
+		   {
+			   uint16_t *data16 = (uint16_t*)raw + compno;
+			   int *data = image->comps[compno].data;
+			   int i = wr * hr;
+				while( i -- > 0)
+					*data16++ = (uint16_t) *data++;
+		   }
+		   else
+		   {
+			  //printf( "****** 32-bit jpeg encoded is NOT supported\r");
+		   }
+	   }
+	   else
+	   {
+			if (comp->prec <= 8)
+			{
+			 uint8_t *data8 = (uint8_t*)raw + compno;
+			 for (int i = 0; i < wr * hr; i++)
+			 {
+				*data8 = (uint8_t) (image->comps[compno].data[i / wr * w + i % wr]);
+				data8 += numcomps;
+			 }
+			}
+			else if (comp->prec <= 16)
+			{
+			 uint16_t *data16 = (uint16_t*)raw + compno;
+			 for (int i = 0; i < wr * hr; i++)
+			 {
+				*data16 = (uint16_t) (image->comps[compno].data[i / wr * w + i % wr]);
+				data16 += numcomps;
+			 }
+			}
+			else
+			{
+				//printf( "****** 32-bit jpeg encoded is NOT supported\r");
+			}
+	   }
+   }
+
+
+  /* free remaining structures */
+  if(dinfo) {
+    opj_destroy_decompress(dinfo);
   }
 
-  theWrkChP = (PapyUChar *) ioImage8P;
+  /* free image data structure */
+  if( image)
+	opj_image_destroy(image);
 
-  theLimit = theCInfo.output_width * theCInfo.output_components;
+  return true;
+}
 
-  /* decompress the image line by line 8 bits */
-  if (inDepth == 8)
-  {
-    while (theCInfo.output_scanline < theCInfo.output_height) 
-    {
-      (void) jpeg_read_scanlines (&theCInfo, (JSAMPARRAY) &theBuffer8P, 1);
-      
-      /* put the scanline in the image */
-      for (theLoop = 0; theLoop < (int) theLimit; theLoop ++)
-      {
-        if (theCInfo.out_color_space == JCS_GRAYSCALE)
-          if (theBuffer8P [theLoop] > 255) 
-            theBuffer8P [theLoop] = 255;
-            
-        *theWrkChP = (PapyUChar) theBuffer8P [theLoop]; 
-        theWrkChP++;  
-      } /* for */
+PapyShort ExtractJPEG2000 (PapyShort inFileNb, PapyUChar *ioImage8P, PapyULong inPixelStart, PapyULong *inOffsetTableP, int inImageNb, int inDepth, long offsetSize)
+{
+	int				fmtid;
+	PapyUChar		theTmpBuf [256];
+	PapyUChar		*theTmpBufP;
+	PapyULong		i, thePos, theLength, theULong, x;
+	PapyShort		theErr;
+	PapyUShort		theUShort1, theUShort2;
+	PapyUChar		*theCompressedP;
+	long			ok = FALSE;
+	
+	Papy3FSeek (gPapyFile [inFileNb], SEEK_SET, (PapyLong) (inPixelStart + inOffsetTableP [inImageNb - 1]));
+	
+	theLength = 0;
+	ok = FALSE;
+	while (!ok)
+	{
+		/* read 8 chars from the file */
+		i 	      = 8L;
+		thePos      = 0L;
+		theTmpBufP  = (unsigned char *) &theTmpBuf [0];
+		if ((theErr = (PapyShort) Papy3FRead (gPapyFile [inFileNb], &i, 1L, theTmpBufP)) < 0)
+		{
+			return -1;
+		} /* if */
 
-    } /* while ...line by line decompression of the image */
-    
-    /* frees the row used by the decompressor */
-    efree3 ((void **) &theBuffer8P);
-  } /* if ...depth = 8 */
+		thePos = 0L;
+		theUShort1 = Extract2Bytes (inFileNb, theTmpBufP, &thePos);
+		theUShort2 = Extract2Bytes (inFileNb, theTmpBufP, &thePos);
+		theULong = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
+		theLength += theULong;
 
-  /* decompress the image line by line 16 bits */
-  else if (inDepth == 16)
-  {
-    while (theCInfo.output_scanline < theCInfo.output_height) 
-    {
-      (void) jpeg_read_scanlines (&theCInfo, (JSAMPARRAY) &theBuffer16P, 1);
-      
-      /* put the scanline in the image */
-      for (theLoop = 0; theLoop < (int) theLimit; theLoop ++)
-      {
-        *theWrkCh16P = theBuffer16P [theLoop];
-        theWrkCh16P++;
-      } /* for */
+		/* offset table found ? */
+		if ((theUShort1 == 0xFFFE) && (theUShort2 == 0xE000))
+		{
+			Papy3FSeek (gPapyFile [inFileNb], SEEK_CUR, theULong);
+		} /* if */
+		else if ((theUShort1 == 0xFFFE) && (theUShort2 == 0xE0DD)) ok = TRUE;
 
-    } /* while ...line by line decompression of the image */
-    
-    /* frees the row used by the decompressor */
-    efree3 ((void **) &theBuffer16P);
-  } /* else ...depth = 16 bits */
-    
-  /* tell the JPEG decompressor we have finish the decompression */  
-  (void) jpeg_finish_decompress (&theCInfo);
-  
-  /* MAL added : cf Example.c */
-  /* Step 8: Release JPEG decompression object */
+	} /* while */
+	
+	long allocatedLength = theLength;
+	
+	theCompressedP = malloc( theLength);
 
-  /* This is an important step since it will release a good deal of memory. */
-  jpeg_destroy_decompress(&theCInfo);
+	Papy3FSeek (gPapyFile [inFileNb], SEEK_SET, (PapyLong) (inPixelStart + inOffsetTableP [inImageNb - 1]));
+	
+	theLength = 0;
+	ok = FALSE;
+	while (!ok)
+	{
+		/* read 8 chars from the file */
+		i 	      = 8L;
+		thePos      = 0L;
+		theTmpBufP  = (unsigned char *) &theTmpBuf [0];
+		if ((theErr = (PapyShort) Papy3FRead (gPapyFile [inFileNb], &i, 1L, theTmpBufP)) < 0)
+		{
+			return -1;
+		} /* if */
 
-  return theErr;
-
-} /* endof ExtractJPEGlossy */
-
+		thePos = 0L;
+		theUShort1 = Extract2Bytes (inFileNb, theTmpBufP, &thePos);
+		theUShort2 = Extract2Bytes (inFileNb, theTmpBufP, &thePos);
+		theULong = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
+		
+		/* offset table found ? */
+		if ((theUShort1 == 0xFFFE) && (theUShort2 == 0xE000))
+		{
+			if ((theErr = (PapyShort) Papy3FRead (gPapyFile [inFileNb], &theULong, 1L, theCompressedP + theLength)) < 0)
+			{
+				Papy3FClose (&gPapyFile [inFileNb]);
+				free( theCompressedP) ;
+				RETURN (theErr);
+			} /* if */
+			
+			theLength += theULong;
+			
+			//if( theLength > allocatedLength)	printf( "****** theLength > allocatedLength\r\r");
+			
+			//Papy3FSeek (gPapyFile [inFileNb], SEEK_CUR, theULong);
+		} /* if */
+		else if ((theUShort1 == 0xFFFE) && (theUShort2 == 0xE0DD)) ok = TRUE;
+		
+	} /* while */
+	
+	int succeed = 0;
+		
+	if( UseOpenJpeg == 1)
+	{
+		PapyrusLockFunction( 0);
+		succeed = read_JPEG2000_file( ioImage8P, (char*) theCompressedP, theLength);
+		//if( succeed == 0)	printf( "**** OpenJPEG 2000 failed to open this file. Will try Jasper2000.\r");
+		PapyrusLockFunction( 1);
+	}
+	
+  if( succeed == 0)
+	{
+		jas_image_t *jasImage;
+		jas_matrix_t *pixels[4];
+		char *fmtname;
+		
+		if( JasperInitialized == 0)
+		{
+			JasperInitialized = 1;
+			jas_init();
+		}
+		
+		PapyrusLockFunction( 0);
+		
+		jas_stream_t *jasStream = jas_stream_memopen((char *)theCompressedP, theLength);
+		
+		if ((fmtid = jas_image_getfmt(jasStream)) < 0)
+		{
+			PapyrusLockFunction( 1);
+			RETURN( -32);
+		}
+			// Decode the image. 
+		if (!(jasImage = jas_image_decode(jasStream, fmtid, 0)))
+		{
+			PapyrusLockFunction( 1);
+			RETURN( -35);
+		}
+		
+		// Close the image file. 
+		jas_stream_close(jasStream);
+		int numcmpts = jas_image_numcmpts(jasImage);
+		int width = jas_image_cmptwidth(jasImage, 0);
+		int height = jas_image_cmptheight(jasImage, 0);
+		int depth = jas_image_cmptprec(jasImage, 0);
+		fmtname = jas_image_fmttostr(fmtid);
+		
+		int bitDepth = 0;
+		if (depth == 8)
+			bitDepth = 1;
+		else if (depth <= 16)
+			bitDepth = 2;
+		else if (depth > 16)
+			bitDepth = 4;
+		
+		unsigned char *newPixelData = ioImage8P;
+		
+		if( gArrPhotoInterpret [inFileNb] == MONOCHROME1 || gArrPhotoInterpret [inFileNb] == MONOCHROME2) numcmpts = 1;
+		
+		for (i=0; i < numcmpts; i++)
+			pixels[ i] = jas_matrix_create( height, width);
+		
+		if( numcmpts == 1)
+		{
+			if (depth > 8)
+			{
+				jas_image_readcmpt(jasImage, 0, 0, 0, width, height, pixels[0]);
+				
+				unsigned short *px = (unsigned short*) newPixelData;
+				
+				int_fast32_t	*ptr = &(pixels[0])->rows_[0][0];
+				x = width * height;
+				while( x-- > 0) *px++ = *ptr++;
+			}
+			else
+			{
+				jas_image_readcmpt(jasImage, 0, 0, 0, width, height, pixels[0]);
+				
+				char *px = (char*) newPixelData;
+				
+				int_fast32_t	*ptr = &(pixels[0])->rows_[0][0];
+				x = width * height;
+				while( x-- > 0) *px++ =	*ptr++;
+			}
+		}
+		else
+		{
+			for( i = 0 ; i < numcmpts; i++)
+				jas_image_readcmpt(jasImage, i, 0, 0, width, height, pixels[ i]);
+			
+			char *px = (char*) newPixelData;
+			
+			int_fast32_t	*ptr1 = &(pixels[0])->rows_[0][0];
+			int_fast32_t	*ptr2 = &(pixels[1])->rows_[0][0];
+			int_fast32_t	*ptr3 = &(pixels[2])->rows_[0][0];
+			
+			x = width * height;
+			while( x-- > 0)
+			{
+				*px++ =	*ptr1++;
+				*px++ =	*ptr2++;
+				*px++ =	*ptr3++;
+			}
+		}
+		
+		for (i=0; i < numcmpts; i++)
+			jas_matrix_destroy( pixels[ i]);
+		
+		jas_image_destroy(jasImage);
+		
+		PapyrusLockFunction( 1);		
+	}
+	
+	free( theCompressedP);
+	return 0;
+}
 
 /********************************************************************************/
 /*									 	*/
@@ -517,8 +562,8 @@ ExtractWavelet (PapyShort inFileNb, PapyUChar *ioImage8P, PapyULong inPixelStart
   } /* if */
     
   thePos 		  = 0L;
-  theCompressedP->length  = Extract4Bytes (theTmpBufP, &thePos);
-  theCompressedP->version = Extract4Bytes (theTmpBufP, &thePos);
+  theCompressedP->length  = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
+  theCompressedP->version = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
     
 
   /* Allocate memory for the image data */ 
@@ -798,9 +843,9 @@ ExtractRLE (PapyShort inFileNb, PapyUShort *ioImage16P, PapyULong inPixelStart,
   } /* if */
     
   thePos     = 0L;
-  theGroup   = Extract2Bytes (theTmpBufP, &thePos);
-  theElement = Extract2Bytes (theTmpBufP, &thePos);
-  theLength  = Extract4Bytes (theTmpBufP, &thePos);
+  theGroup   = Extract2Bytes (inFileNb, theTmpBufP, &thePos);
+  theElement = Extract2Bytes (inFileNb, theTmpBufP, &thePos);
+  theLength  = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
     
   /* Pixel data fragment not found when expected */
   if ((theGroup != 0xFFFE) || (theElement != 0xE000)) RETURN (papBadArgument);
@@ -814,7 +859,7 @@ ExtractRLE (PapyShort inFileNb, PapyUShort *ioImage16P, PapyULong inPixelStart,
     Papy3FClose (&gPapyFile [inFileNb]);
     RETURN (theErr);
   } /* if */
-  theNbOfSegments = Extract4Bytes (theTmpBufP, &thePos);
+  theNbOfSegments = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
   if (theNbOfSegments > 3L) RETURN (papWrongValue); /* we allow to read 8, 16 and 32 bit images */
     
   /* read theOffset1, theOffset2, theOffset3 and skip 48 bytes */
@@ -828,9 +873,9 @@ ExtractRLE (PapyShort inFileNb, PapyUShort *ioImage16P, PapyULong inPixelStart,
     Papy3FClose (&gPapyFile [inFileNb]);
     RETURN (theErr);
   } /* if */
-  theOffset1 = Extract4Bytes (theTmpBufP, &thePos);
-  theOffset2 = Extract4Bytes (theTmpBufP, &thePos);
-  theOffset3 = Extract4Bytes (theTmpBufP, &thePos);
+  theOffset1 = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
+  theOffset2 = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
+  theOffset3 = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
   Papy3FSeek (gPapyFile [inFileNb], SEEK_CUR, (PapyLong) 48L);
     
   if (theNbOfSegments == 1) 
@@ -904,6 +949,154 @@ ExtractRLE (PapyShort inFileNb, PapyUShort *ioImage16P, PapyULong inPixelStart,
 } /* endof ExtractRLE */
 
 
+static inline unsigned short readUint16(const unsigned char *data)
+{
+  return (((unsigned short)(*data) << 8) | ((unsigned short)(*(data+1))));
+}
+
+static unsigned char scanJpegDataForBitDepth(
+  const unsigned char *data,
+  const long fragmentLength)
+{
+  long offset = 0;
+  while(offset+4 < fragmentLength)
+  {
+	unsigned short val = readUint16(data+offset);
+    switch( val)
+    {
+      case 0xffc0: // SOF_0: JPEG baseline
+        return data[offset+4];
+        /* break; */
+      case 0xffc1: // SOF_1: JPEG extended sequential DCT
+        return data[offset+4];
+        /* break; */
+      case 0xffc2: // SOF_2: JPEG progressive DCT
+        return data[offset+4];
+        /* break; */
+      case 0xffc3 : // SOF_3: JPEG lossless sequential
+        return data[offset+4];
+        /* break; */
+      case 0xffc5: // SOF_5: differential (hierarchical) extended sequential, Huffman
+        return data[offset+4];
+        /* break; */
+      case 0xffc6: // SOF_6: differential (hierarchical) progressive, Huffman
+        return data[offset+4];
+        /* break; */
+      case 0xffc7: // SOF_7: differential (hierarchical) lossless, Huffman
+        return data[offset+4];
+        /* break; */
+      case 0xffc8: // Reserved for JPEG extentions
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xffc9: // SOF_9: extended sequential, arithmetic
+        return data[offset+4];
+        /* break; */
+      case 0xffca: // SOF_10: progressive, arithmetic
+        return data[offset+4];
+        /* break; */
+      case 0xffcb: // SOF_11: lossless, arithmetic
+        return data[offset+4];
+        /* break; */
+      case 0xffcd: // SOF_13: differential (hierarchical) extended sequential, arithmetic
+        return data[offset+4];
+        /* break; */
+      case 0xffce: // SOF_14: differential (hierarchical) progressive, arithmetic
+        return data[offset+4];
+        /* break; */
+      case 0xffcf: // SOF_15: differential (hierarchical) lossless, arithmetic
+        return data[offset+4];
+        /* break; */
+      case 0xffc4: // DHT
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xffcc: // DAC
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xffd0: // RST m
+      case 0xffd1:
+      case 0xffd2:
+      case 0xffd3:
+      case 0xffd4:
+      case 0xffd5:
+      case 0xffd6:
+      case 0xffd7:
+        offset +=2;
+        break;
+      case 0xffd8: // SOI
+        offset +=2;
+        break;
+      case 0xffd9: // EOI
+        offset +=2;
+        break;
+      case 0xffda: // SOS
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xffdb: // DQT
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xffdc: // DNL
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xffdd: // DRI
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xffde: // DHP
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xffdf: // EXP
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xffe0: // APPn
+      case 0xffe1:
+      case 0xffe2:
+      case 0xffe3:
+      case 0xffe4:
+      case 0xffe5:
+      case 0xffe6:
+      case 0xffe7:
+      case 0xffe8:
+      case 0xffe9:
+      case 0xffea:
+      case 0xffeb:
+      case 0xffec:
+      case 0xffed:
+      case 0xffee:
+      case 0xffef:
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xfff0: // JPGn
+      case 0xfff1:
+      case 0xfff2:
+      case 0xfff3:
+      case 0xfff4:
+      case 0xfff5:
+      case 0xfff6:
+      case 0xfff7:
+      case 0xfff8:
+      case 0xfff9:
+      case 0xfffa:
+      case 0xfffb:
+      case 0xfffc:
+      case 0xfffd:
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xfffe: // COM
+        offset += readUint16(data+offset+2)+2;
+        break;
+      case 0xff01: // TEM
+        break;
+      default:
+        if ((data[offset]==0xff) && (data[offset+1]>2) && (data[offset+1] <= 0xbf)) // RES reserved markers
+        {
+          offset += 2;
+        }
+        else return 0; // syntax error, stop parsing
+        break;
+    }
+  } // while
+  return 0; // no SOF marker found
+}
+
 
 /********************************************************************************/
 /*									 	*/
@@ -930,7 +1123,7 @@ Papy3GetPixelData (PapyShort inFileNb, int inImageNb, SElement *inGrOrModP, int 
   PapyShort	 theErr;
   int		 theFrameCount = 1, theLoop, ok, theIsModule;
   PAPY_FILE	 theFp;
-  PapyULong	 theBytesToRead, i, theULong, thePos, *theOffsetTableP;
+  PapyULong	 theBytesToRead, i, theULong, thePos, *theOffsetTableP=NULL;
   PapyULong	 theRefPoint, thePixelStart;
   SElement 	 *theElemP;	/* work pointer on the element of the module */
   
@@ -942,7 +1135,7 @@ Papy3GetPixelData (PapyShort inFileNb, int inImageNb, SElement *inGrOrModP, int 
   if (inGrOrModP->group == 0x0028) theIsModule = TRUE;
   else theIsModule = FALSE;
   
-  theOffsetTableP = NULL;
+
   
   /* get the file pointer from the file number */
   theFp = gPapyFile [inFileNb];
@@ -981,7 +1174,7 @@ Papy3GetPixelData (PapyShort inFileNb, int inImageNb, SElement *inGrOrModP, int 
         if (Papy3FSeek (gPapyFile [inFileNb], (int) SEEK_CUR, (PapyLong) 8L) != 0) 
           return NULL;
       } /* if */
-      else if (gArrTransfSyntax [inFileNb] == LITTLE_ENDIAN_EXPL)
+      else if (gArrTransfSyntax [inFileNb] == LITTLE_ENDIAN_EXPL || gArrTransfSyntax [inFileNb] == BIG_ENDIAN_EXPL) 
       {
         if (Papy3FSeek (gPapyFile [inFileNb], (int) SEEK_CUR, (PapyLong) 12L) != 0) 
           return NULL;
@@ -1019,20 +1212,29 @@ Papy3GetPixelData (PapyShort inFileNb, int inImageNb, SElement *inGrOrModP, int 
     theBytesToRead = (PapyULong) gx0028Rows [inFileNb] * (PapyULong) gx0028Columns [inFileNb] * 
     		     (PapyULong) (((gx0028BitsAllocated [inFileNb] - 1) / 8) + 1L);
 
-  if (gArrCompression [inFileNb] == JPEG_LOSSY && 
-      (gArrPhotoInterpret [inFileNb] == YBR_FULL_422 ||
-       gArrPhotoInterpret [inFileNb] == YBR_PARTIAL_422))
-    gArrPhotoInterpret [inFileNb] = RGB; /* DAB modification */
+    
+	if( gx0028BitsAllocated [inFileNb] == 16 && gx0028BitsStored [inFileNb] == 8 && gArrPhotoInterpret [inFileNb] == RGB)   //ANTOINE: Sometimes these DICOMs are really strange???
+	{
+		gx0028BitsAllocated[inFileNb] = 8;
+		
+		theBytesToRead = (PapyULong) gx0028Rows [inFileNb] * (PapyULong) gx0028Columns [inFileNb] * 
+    		     (PapyULong) (((gx0028BitsAllocated [inFileNb] - 1) / 8) + 1L);
+	}
+	
 
   /* if it is a RGB or a YBR_FULL image, multiply the bytes to read by 3 */
   if (inModuleId == ImagePixel && 
       (gArrPhotoInterpret [inFileNb] == RGB ||
-       gArrPhotoInterpret [inFileNb] == YBR_FULL)) theBytesToRead *= 3L;
-  /* if it is a YBR_FULL_422 or a YBR_PARTIAL_422 then multiply the bytes to read by 2 */
+	   gArrPhotoInterpret [inFileNb] == UNKNOWN_COLOR  ||
+       gArrPhotoInterpret [inFileNb] == YBR_FULL  ||
+	   gArrPhotoInterpret [inFileNb] == YBR_ICT  ||
+	   gArrPhotoInterpret [inFileNb] == YUV_RCT  ||
+	   gArrPhotoInterpret [inFileNb] == YBR_RCT)) theBytesToRead *= 3L;
   else if (inModuleId == ImagePixel && 
            (gArrPhotoInterpret [inFileNb] == YBR_FULL_422 ||
-            gArrPhotoInterpret [inFileNb] == YBR_PARTIAL_422)) theBytesToRead *= 2L;
+            gArrPhotoInterpret [inFileNb] == YBR_PARTIAL_422)) theBytesToRead *= 3L;
   
+  goImageSize[ inFileNb] = theBytesToRead;
   /* allocate the memory for the pixel data */
   theBufP = (PapyUChar *) emalloc3 ((PapyULong) theBytesToRead);
   
@@ -1047,7 +1249,11 @@ Papy3GetPixelData (PapyShort inFileNb, int inImageNb, SElement *inGrOrModP, int 
         gArrPhotoInterpret [inFileNb] == PALETTE     	||
         gArrPhotoInterpret [inFileNb] == RGB         	||
         gArrPhotoInterpret [inFileNb] == YBR_FULL  	||
+		gArrPhotoInterpret [inFileNb] == UNKNOWN_COLOR  ||
         gArrPhotoInterpret [inFileNb] == YBR_FULL_422	||
+        gArrPhotoInterpret [inFileNb] == YBR_RCT  	||
+        gArrPhotoInterpret [inFileNb] == YBR_ICT	||
+		gArrPhotoInterpret [inFileNb] == YUV_RCT	||
         gArrPhotoInterpret [inFileNb] == YBR_PARTIAL_422)))
   {    
     /* if it is a DICOM file then jump to the right image */
@@ -1065,16 +1271,68 @@ Papy3GetPixelData (PapyShort inFileNb, int inImageNb, SElement *inGrOrModP, int 
     /* swap the bytes if necessary */
     if (inModuleId == ImagePixel && gx0028BitsAllocated [inFileNb] > 8)
     {
-      theUShortP = (PapyUShort *) theBufP;
-      
-      for (i = 0L, theCharP = theBufP; i < (theBytesToRead / 2); i++, theCharP += 2, theUShortP++)
-      {
-        theChar0     = *theCharP;
-        theChar1     = *(theCharP + 1);
-        *theUShortP  = (PapyUShort) theChar1;
-    	*theUShortP  = *theUShortP << 8;
-    	*theUShortP |= (PapyUShort) theChar0;
-      } /* for */
+	    if( gx0028BitsAllocated [inFileNb] > 16)
+	    {
+		    register PapyULong	*theULongP = (PapyULong *) theBufP;
+		    register long			ii;
+  		  
+		    ii = theBytesToRead / 4;
+  		  
+		    #if __BIG_ENDIAN__
+		    {
+			  if( gArrTransfSyntax [inFileNb] != BIG_ENDIAN_EXPL)
+			  {
+			    while( ii-- > 0)
+			    {
+			      *theULongP++ = OSSwapLittleToHostInt32( *theULongP);
+			    }
+			  }
+		    }
+		    #else
+		    if( gArrTransfSyntax [inFileNb] != BIG_ENDIAN_EXPL)
+		    {
+		    }
+		    else
+		    {
+			    while( ii-- > 0)
+			    {
+				  *theULongP++ = OSSwapBigToHostInt32( *theULongP);
+			    }
+		    }
+		    #endif
+	    }
+	    else
+	    {
+		    register PapyUShort	 *theUShortP = (PapyUShort *) theBufP;
+		    register long			ii;
+  		  
+		    ii = theBytesToRead / 2;
+			  
+		    #if __BIG_ENDIAN__
+		    {
+			  if( gArrTransfSyntax [inFileNb] != BIG_ENDIAN_EXPL)
+			  {
+			    while( ii-- > 0)
+			    {
+			      *theUShortP++ = OSSwapLittleToHostInt16( *theUShortP);
+			    }
+			  }
+		    }
+		    #else
+		    if( gArrTransfSyntax [inFileNb] != BIG_ENDIAN_EXPL)
+		    {
+  		  
+		    }
+		    else
+		    {
+			  while( ii-- > 0)
+			    {
+				  *theUShortP++ = OSSwapBigToHostInt16( *theUShortP);
+			    }
+		    }
+		    #endif
+	    }
+  	  
     } /* if ...more than 8 bits depth image */
     
   } /* if ...module IconImage or photometric interpretation is monochrome/palette/rgb */
@@ -1097,87 +1355,75 @@ Papy3GetPixelData (PapyShort inFileNb, int inImageNb, SElement *inGrOrModP, int 
       } /* if */
     
       thePos     = 0L;
-      theUShort1 = Extract2Bytes (theTmpBufP, &thePos);
-      theUShort2 = Extract2Bytes (theTmpBufP, &thePos);
-    
+		  theGroup   = Extract2Bytes (inFileNb, theTmpBufP, &thePos);
+		  theElement = Extract2Bytes (inFileNb, theTmpBufP, &thePos);
+
       /* test if the values are correct */
       if (theUShort1 != 0xFFFE || theUShort2 != 0xE000)
         return NULL;
     
       /* offset table size */
       /* extract the element length according to the little-endian syntax */
-      theULong = Extract4Bytes (theTmpBufP, &thePos);
+      theULong = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
     
-      if (theULong > 0)
-      {
-        /* the offset table size does give the number of frames */
-        theFrameCount = (int) (theULong / 4L);
-      
-        /* allocate room to store the offset table */
-        theOffsetTableP = (PapyULong *) emalloc3 ((PapyULong) (theFrameCount * sizeof (PapyULong)));
- 
-        for (theLoop = 0; theLoop < theFrameCount; theLoop++)
-        {
-          /* read 4 chars from the file */
-          i           = 4L;
-          thePos      = 0L;
-          theTmpBufP  = (unsigned char *) &theTmpBuf [0];
-          if ((theErr = (PapyShort) Papy3FRead (theFp, &i, 1L, theTmpBufP)) < 0)
-          {
-	    theErr = Papy3FClose (&theFp);
-	    efree3 ((void **) &theOffsetTableP);
-	    return NULL;
-          } /* if */
-          theOffsetTableP [theLoop] = Extract4Bytes (theTmpBufP, &thePos);
-        } /* for */
-     
-      } /* if */
-      else
       {
         ok = FALSE;
         theFrameCount = 0;
       
+      
+	    if( gCachedFramesMap[ inFileNb] == 0)
+	    {
         /* initialize a file reference point */
         Papy3FTell (theFp, (PapyLong *) &theRefPoint);
-      
-        /* allocate memory for the offset table */
-        theOffsetTableP = (PapyULong *) emalloc3 ((PapyULong) (1000L * sizeof (PapyULong)));
-      
-        while (!ok)
-        {
-          /* read fragment information : 0xFFFE, 0xE000, length */
-          Papy3FTell (theFp, (PapyLong *) &thePixelStart);
-        
-          /* read 8 chars from the file */
-          i 	      = 8L;
-          thePos      = 0L;
-          theTmpBufP  = (unsigned char *) &theTmpBuf [0];
-          if ((theErr = (PapyShort) Papy3FRead (theFp, &i, 1L, theTmpBufP)) < 0)
-          {
-	    theErr = Papy3FClose (&theFp);
-	    efree3 ((void **) &theOffsetTableP);
-	    return NULL;
-          } /* if */
-        
-          thePos = 0L;
-          theUShort1 = Extract2Bytes (theTmpBufP, &thePos);
-          theUShort2 = Extract2Bytes (theTmpBufP, &thePos);
-          theULong   = Extract4Bytes (theTmpBufP, &thePos);
-        
-          /* offset table found ? */
-          if ((theUShort1 == 0xFFFE) && (theUShort2 == 0xE000))
-          {
-            theOffsetTableP [theFrameCount] = thePixelStart - theRefPoint;
-            theFrameCount ++;
-            Papy3FSeek (theFp, SEEK_CUR, theULong);
-          } /* if */
-          else if ((theUShort1 == 0xFFFE) && (theUShort2 == 0xE0DD)) ok = TRUE;
-      
-        } /* while */
-      
+      	Papy3FSeek (theFp, SEEK_SET, theRefPoint + theULong);
+  			
+			  /* allocate memory for the offset table */
+			  #define MAX_NUMBER_OF_FRAMES 100000L
+			  theOffsetTableP = (PapyULong *) emalloc3 ((PapyULong) (100000L * sizeof (PapyULong)));
+  		  
+			  while (!ok)
+			  {
+			    /* read fragment information : 0xFFFE, 0xE000, length */
+			    Papy3FTell (theFp, (PapyLong *) &thePixelStart);
+  			  
+			    /* read 8 chars from the file */
+			    i 	      = 8L;
+			    thePos      = 0L;
+			    theTmpBufP  = (unsigned char *) &theTmpBuf [0];
+			    if ((theErr = (PapyShort) Papy3FRead (theFp, &i, 1L, theTmpBufP)) < 0)
+			    {
+				  theErr = Papy3FClose (&theFp);
+				  efree3 ((void **) &theOffsetTableP);
+				  return NULL;
+			    } /* if */
+  			
+			    thePos = 0L;
+			    theUShort1 = Extract2Bytes (inFileNb, theTmpBufP, &thePos);
+			    theUShort2 = Extract2Bytes (inFileNb, theTmpBufP, &thePos);
+			    theULong   = Extract4Bytes (inFileNb, theTmpBufP, &thePos);
+  			
+			    /* offset table found ? */
+			    if ((theUShort1 == 0xFFFE) && (theUShort2 == 0xE000))
+			    {
+				  theOffsetTableP [theFrameCount] = thePixelStart - theRefPoint;
+  				
+				  if( theFrameCount >= MAX_NUMBER_OF_FRAMES)
+					  fprintf(stdout, "*********** MAJOR MEMORY BUG : theFrameCount > MAX_NUMBER_OF_FRAMES -> THIS APP WILL CRASH !\r");
+				  else theFrameCount ++;
+  				
+				  Papy3FSeek (theFp, SEEK_CUR, theULong);
+			    } /* if */
+			    else if ((theUShort1 == 0xFFFE) && (theUShort2 == 0xE0DD)) ok = TRUE;
+  			  
+			  } /* while */
+  	      
         /* position the file pointer on the first image */
         Papy3FSeek (theFp, SEEK_SET, theRefPoint);
       
+       	gCachedFramesMap[ inFileNb] = theOffsetTableP;
+      }
+		  else theOffsetTableP = gCachedFramesMap[ inFileNb];
+
       } /* else */
     
     } /* if ...not a Papyrus compressed image */
