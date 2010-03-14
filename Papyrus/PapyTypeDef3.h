@@ -51,7 +51,7 @@
 /*             04.2001	version 3.7                                             */
 /*             09.2001  version 3.7  on CVS                                     */
 /*             10.2001  version 3.71 MAJ Dicom par CHG                          */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 #ifndef PapyTypeDef3H
@@ -126,7 +126,7 @@
 /* --- Constant definitions --- */
 
 #ifndef _WINDOWS
-#define kMax_file_open	100
+#define kMax_file_open	300
 #else
 #define kMax_file_open	20	/* Limitation on the PCs to 20 open files... */
 #endif
@@ -177,11 +177,11 @@ enum ETransf_Syntax	{LITTLE_ENDIAN_IMPL, LITTLE_ENDIAN_EXPL, BIG_ENDIAN_EXPL};
 enum EFile_Type		{DICOM10, PAPYRUS3, DICOM_NOT10, DICOMDIR, PAPYRUS2, other};
 
 /* Definition of the different compression used */
-enum EPap_Compression	{NONE, JPEG_LOSSLESS, JPEG_LOSSY, RLE, MAYO_WAVELET};
+enum EPap_Compression	{NONE, JPEG_LOSSLESS, JPEG_LOSSY, RLE, MAYO_WAVELET, JPEG2000, MPEG2MPML};
 
 /* Definition of the photometric interpretation */
 enum EPhoto_Interpret	{MONOCHROME1, MONOCHROME2, PALETTE, RGB, HSV, ARGB, CMYK, 
-			 YBR_FULL, YBR_FULL_422, YBR_PARTIAL_422}; 
+			 YBR_FULL, YBR_FULL_422, YBR_PARTIAL_422,  YBR_RCT, YBR_ICT, YUV_RCT, UNKNOWN_COLOR }; 
 
 enum EDataSet_Image 	{DataSetID, ImageID};
 
