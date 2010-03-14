@@ -58,7 +58,7 @@
 /*             04.2001      version 3.7                                         */
 /*             09.2001      version 3.7  on CVS                                 */
 /*             10.2001      version 3.71 MAJ Dicom par CHG                      */
-/*                                                                              */
+/*             03.2010      Fuli Wu                                             */
 /********************************************************************************/
 
 #ifdef Mac
@@ -124,7 +124,7 @@ PapyStrDup (char *inS)
   if (inS != NULL)
   {
     theStr = (char *) emalloc3 ((PapyULong) (strlen (inS) + 1));
-    strcpy (theStr, inS);
+    if( theStr ) strcpy (theStr, inS);
   }
   else
     theStr = NULL;
@@ -191,7 +191,9 @@ Papy3GotoNumber (PapyShort inFileNb, PapyShort inNb, enum EDataSet_Image inDSorI
 {
   PapyULong		theOffset;
 
-  
+  if ( gRefImagePointer [inFileNb] == 0L )	RETURN papPositioning;
+	if ( gRefPixelOffset [inFileNb]  + inNb - 1 == OL ) RETURN papPositioning;
+ 
   if (inDSorIM == DataSetID)
     theOffset = *(gRefImagePointer [inFileNb] + inNb - 1);
   else
@@ -480,12 +482,20 @@ void
 ExtractModality (UValue_T *inValP, PapyShort inFileNb)
 {
   int           i;
-  char		theModality [8];
+  char		theModality [10];
         
 
   /* is there a value ? */
   if (inValP != NULL)
   {
+
+		if( strlen( inValP->a) > 8)
+		{ 
+			printf( "***** ExtractModality modality len > 8 ??");
+			gFileModality[ inFileNb] = SEC_CAPT_IM;
+			return;
+		}
+
     strcpy (theModality, inValP->a);
     switch (theModality [0])
     {

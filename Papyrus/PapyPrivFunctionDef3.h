@@ -49,7 +49,7 @@
 /*             04.2001	version 3.7                                             */
 /*             09.2001  version 3.7  on CVS                                     */
 /*             10.2001  version 3.71 MAJ Dicom par CHG                          */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                                */
 /********************************************************************************/
 
 #ifndef PapyPrivFunctionDef3H 

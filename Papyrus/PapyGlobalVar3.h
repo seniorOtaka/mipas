@@ -56,7 +56,7 @@
 /*             04.2001	version 3.7                                             */
 /*             09.2001  version 3.7  on CVS                                     */
 /*             10.2001  version 3.71 MAJ Dicom par CHG                          */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 #ifndef PapyGlobalVar3H 
@@ -81,6 +81,8 @@ WHERE3 char		gPapyrusCompatibility	[2];
 /* the version of this particular PAPYRUS file */
 WHERE3 float    gPapyrusFileVersion	[kMax_file_open];
 
+WHERE3 void *gCachedGroupLength[kMax_file_open];
+WHERE3 void *gCachedFramesMap[kMax_file_open];
 
 
 /* has the PAPYRUS toolkit been initialized or not ? */
@@ -88,6 +90,12 @@ WHERE3 int		gIsPapy3Inited;
 
 /* Papyrus file pointers to the currently open files */
 WHERE3 PAPY_FILE	gPapyFile		[kMax_file_open];
+
+WHERE3 PapyULong    gPapyFileSize	[kMax_file_open];
+WHERE3 char				*gPapyFilePath	[kMax_file_open];
+WHERE3 int      	gSeekPos				[kMax_file_open];
+WHERE3 char      	gSeekPosApplied	[kMax_file_open];
+WHERE3 int				goImageSize			[kMax_file_open];
 
 /* What is the type of the fiel we are dealing with ? */
 /* DICOM10, PAPYRUS3, DICOM_NOT10, DICOMDIR */
@@ -110,6 +118,8 @@ WHERE3 SElement		*gArrGroup41		[kMax_file_open];
 
 /* the syntax used in each open file */
 WHERE3 enum ETransf_Syntax gArrTransfSyntax 	[kMax_file_open];
+
+WHERE3 char	*gSOPClassUID	[kMax_file_open];
 
 /* the compression used for the images of each file */
 WHERE3 enum EPap_Compression gArrCompression	[kMax_file_open];

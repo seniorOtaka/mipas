@@ -53,7 +53,7 @@
 /*             04.2001	version 3.7                                             */
 /*             09.2001  version 3.7  on CVS                                     */
 /*             10.2001  version 3.71 MAJ Dicom par CHG                          */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 #ifdef Mac
@@ -64,6 +64,8 @@
 
 #include <stdio.h>
 #include <string.h>
+
+#include <stdlib.h>
 
 #ifndef Papyrus3H 
 #include "Papyrus3.h"
@@ -110,10 +112,12 @@ ExtractGroup28Information (PapyShort inFileNb)
   } /* if */
   
   /* number of ROWS */
-  gx0028Rows [inFileNb] = theGroup28P [papRowsGr].value->us;
+	if( theGroup28P [papRowsGr].value == 0L)  gx0028Rows [inFileNb] = 0;
+	else gx0028Rows [inFileNb] = theGroup28P [papRowsGr].value->us;
   
   /* number of COLUMNS */
-  gx0028Columns [inFileNb] = theGroup28P [papColumnsGr].value->us;
+	if( theGroup28P [papColumnsGr].value == 0L) gx0028Columns [inFileNb] = 0;
+  else gx0028Columns [inFileNb] = theGroup28P [papColumnsGr].value->us;
   
   /* the image format */
   if (theGroup28P [papImageFormatGr].nb_val > 0L)
@@ -144,27 +148,33 @@ ExtractGroup28Information (PapyShort inFileNb)
   theErr = Papy3GroupFree (&theGroup28P, TRUE);
   
   /* set the PAPYRUS global var according to the extracted value */
-  if (strcmp (thePhotoInterpret, "MONOCHROME1") == 0) 
+  if (strncmp (thePhotoInterpret, "MONOCHROME1", strlen( "MONOCHROME1")) == 0) 
     gArrPhotoInterpret [inFileNb] = MONOCHROME1;
-  else if (strcmp (thePhotoInterpret, "MONOCHROME2") == 0) 
+  else if (strncmp (thePhotoInterpret, "MONOCHROME2", strlen( "MONOCHROME2")) == 0) 
     gArrPhotoInterpret [inFileNb] = MONOCHROME2;
-  else if (strcmp (thePhotoInterpret, "PALETTE COLOR") == 0) 
+  else if (strncmp (thePhotoInterpret, "PALETTE COLOR", strlen( "PALETTE COLOR")) == 0) 
     gArrPhotoInterpret [inFileNb] = PALETTE;
-  else if (strcmp (thePhotoInterpret, "RGB") == 0) 
+  else if (strncmp (thePhotoInterpret, "RGB", strlen( "RGB")) == 0) 
     gArrPhotoInterpret [inFileNb] = RGB;
-  else if (strcmp (thePhotoInterpret, "HSV") == 0) 
+  else if (strncmp (thePhotoInterpret, "HSV", strlen( "HSV")) == 0) 
     gArrPhotoInterpret [inFileNb] = HSV;
-  else if (strcmp (thePhotoInterpret, "ARGB") == 0) 
+  else if (strncmp (thePhotoInterpret, "ARGB", strlen( "ARGB")) == 0) 
     gArrPhotoInterpret [inFileNb] = ARGB;
-  else if (strcmp (thePhotoInterpret, "CMYK") == 0) 
+  else if (strncmp (thePhotoInterpret, "CMYK", strlen( "CMYK")) == 0) 
     gArrPhotoInterpret [inFileNb] = CMYK;
-  else if (strcmp (thePhotoInterpret, "YBR_FULL") == 0) 
+  else if (strncmp (thePhotoInterpret, "YBR_FULL", strlen( "YBR_FULL")) == 0) 
     gArrPhotoInterpret [inFileNb] = YBR_FULL;
-  else if (strcmp (thePhotoInterpret, "YBR_FULL_422") == 0) 
+	else if (strncmp (thePhotoInterpret, "YBR_FULL_422", strlen( "YBR_FULL_422")) == 0) 
     gArrPhotoInterpret [inFileNb] = YBR_FULL_422;
-  else if (strcmp (thePhotoInterpret, "YBR_PARTIAL_422") == 0) 
+  else if (strncmp (thePhotoInterpret, "YBR_PARTIAL_422", strlen( "YBR_PARTIAL_422")) == 0) 
     gArrPhotoInterpret [inFileNb] = YBR_PARTIAL_422;
-    
+  else if (strncmp (thePhotoInterpret, "YBR_RCT", strlen( "YBR_RCT")) == 0) 
+    gArrPhotoInterpret [inFileNb] = YBR_RCT;
+  else if (strncmp (thePhotoInterpret, "YBR_ICT", strlen( "YBR_ICT")) == 0) 
+    gArrPhotoInterpret [inFileNb] = YBR_ICT;
+  else if (strncmp (thePhotoInterpret, "YUV_RCT", strlen( "YUV_RCT")) == 0) 
+    gArrPhotoInterpret [inFileNb] = YUV_RCT;
+
   RETURN (papNoError);
   
 } /* endofmethod ExtractGroup28Information */
@@ -253,6 +263,21 @@ ExtractFileMetaInformation3 (PapyShort inFileNb)
     gArrCompression  [inFileNb] = MAYO_WAVELET;
   }
 #endif
+  else if (strcmp (theValP->a, "1.2.840.10008.1.2.4.90") == 0) 
+  {
+    gArrTransfSyntax [inFileNb] = LITTLE_ENDIAN_EXPL;
+    gArrCompression  [inFileNb] = JPEG2000;
+  }
+   else if (strcmp (theValP->a, "1.2.840.10008.1.2.4.91") == 0) 
+  {
+    gArrTransfSyntax [inFileNb] = LITTLE_ENDIAN_EXPL;
+    gArrCompression  [inFileNb] = JPEG2000;
+  }
+   else if (strcmp (theValP->a, "1.2.840.10008.1.2.4.100") == 0) 
+  {
+    gArrTransfSyntax [inFileNb] = LITTLE_ENDIAN_EXPL;
+    gArrCompression  [inFileNb] = MPEG2MPML;
+  }
   else 
   {
     theErr = Papy3GroupFree (&theGroup2P, TRUE); 
@@ -420,7 +445,7 @@ ExtractPapyDataSetInformation3 (PapyShort inFileNb)
   /* so points to the first element of the pointer sequence */
   if (gArrTransfSyntax [inFileNb] == LITTLE_ENDIAN_IMPL)
     Papy3FSeek (gPapyFile [inFileNb], (int) SEEK_SET, (PapyLong) (gOffsetToPtrSeq [inFileNb] + 8L));
-  else if (gArrTransfSyntax [inFileNb] == LITTLE_ENDIAN_EXPL)
+  else if (gArrTransfSyntax [inFileNb] == LITTLE_ENDIAN_EXPL || gArrTransfSyntax [inFileNb] == BIG_ENDIAN_EXPL)
     Papy3FSeek (gPapyFile [inFileNb], (int) SEEK_SET, (PapyLong) (gOffsetToPtrSeq [inFileNb] + 12L));
   
   /* extract the offset to data set and the image and the UID for each image */
@@ -481,8 +506,19 @@ ExtractDicomDataSetInformation3 (PapyShort inFileNb)
   PapyShort	theErr, i;
   PapyULong	theULong;
   PapyULong	theOffsetDataSet, theOffsetImage;
+
+	if( gSOPClassUID[ inFileNb] != 0L && strcmp( gSOPClassUID[ inFileNb], "1.2.840.10008.5.1.4.1.1.104.1") == 0)	
+		// EncapsulatedPDFStorage -> No Pixel Data
+		return 0;
   
+  if( gSOPClassUID[ inFileNb] != 0L && strncmp( gSOPClassUID[ inFileNb], "1.2.840.10008.5.1.4.1.1.11", strlen( "1.2.840.10008.5.1.4.1.1.11")) == 0)	
+		// Presentation States -> No Pixel Data
+		return 0;
   
+  if( gSOPClassUID[ inFileNb] != 0L && strncmp( gSOPClassUID[ inFileNb], "1.2.840.10008.5.1.4.1.1.88", strlen( "1.2.840.10008.5.1.4.1.1.88")) == 0)	
+		// SR -> No Pixel Data
+		return 0;
+	  
   /* move the file pointer to group 0x7FE0 */
   if ((theErr = Papy3GotoGroupNb (inFileNb, 0x7FE0)) < 0) RETURN (theErr);
   
