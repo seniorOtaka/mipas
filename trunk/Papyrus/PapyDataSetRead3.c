@@ -164,7 +164,7 @@ ExtractGroup28Information (PapyShort inFileNb)
     gArrPhotoInterpret [inFileNb] = CMYK;
   else if (strncmp (thePhotoInterpret, "YBR_FULL", strlen( "YBR_FULL")) == 0) 
     gArrPhotoInterpret [inFileNb] = YBR_FULL;
-	else if (strncmp (thePhotoInterpret, "YBR_FULL_422", strlen( "YBR_FULL_422")) == 0) 
+  else if (strncmp (thePhotoInterpret, "YBR_FULL_422", strlen( "YBR_FULL_422")) == 0) 
     gArrPhotoInterpret [inFileNb] = YBR_FULL_422;
   else if (strncmp (thePhotoInterpret, "YBR_PARTIAL_422", strlen( "YBR_PARTIAL_422")) == 0) 
     gArrPhotoInterpret [inFileNb] = YBR_PARTIAL_422;

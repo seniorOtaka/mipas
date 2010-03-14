@@ -58,7 +58,7 @@
 /*             04.2001	version 3.7                                             */
 /*             09.2001  version 3.7  on CVS                                     */
 /*             10.2001  version 3.71 MAJ Dicom par CHG                          */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 #ifdef Mac
@@ -454,6 +454,9 @@ InitGroupNbAndSize3 ()
   gArrGroup [(int) Group41].number	= 0x0041;
   gArrGroup [(int) Group41].size	= papEndGroup41;
 
+  gArrGroup [(int) Group42].number	= 0x0042;
+  gArrGroup [(int) Group42].size	= papEndGroup42;
+
   gArrGroup [(int) Group50].number	= 0x0050;
   gArrGroup [(int) Group50].size	= papEndGroup50;
 
@@ -474,7 +477,10 @@ InitGroupNbAndSize3 ()
 
   gArrGroup [(int) Group2000].number	= 0x2000;
   gArrGroup [(int) Group2000].size	= papEndGroup2000;
-
+  
+  gArrGroup [(int) Group2001].number	= 0x2001;
+  gArrGroup [(int) Group2001].size	= papEndGroup2001;
+   
   gArrGroup [(int) Group2010].number	= 0x2010;
   gArrGroup [(int) Group2010].size	= papEndGroup2010;
 
@@ -540,6 +546,9 @@ InitGroupNbAndSize3 ()
  
   gArrGroup [(int) UINOVERLAY].number 	= 0x6001;
   gArrGroup [(int) UINOVERLAY].size	= papEndUINOverlay;
+
+  gArrGroup [(int) Group7053].number 	= 0x7053;
+  gArrGroup [(int) Group7053].size	= papEndGroup7053;
 
   gArrGroup [(int) Group7FE0].number	= 0x7FE0;
   gArrGroup [(int) Group7FE0].size	= papEndGroup7FE0;
@@ -2438,6 +2447,8 @@ Papy3GroupFree (SElement **ioGroupP, int inDelSeq)
               case OW :
                 theElemP->value->ow = NULL;
                 break;
+              default:
+                break;
             } /* switch */
       
             efree3 ((void **) &(theElemP->value));
@@ -2464,6 +2475,8 @@ Papy3GroupFree (SElement **ioGroupP, int inDelSeq)
             break;
           case OW :
             theElemP->value->ow = NULL;
+            break;
+          default:
             break;
         } /* switch */
       
@@ -2588,6 +2601,8 @@ Papy3ModuleFree (SElement **ioModuleP, int inModuleID, int inDelSeq)
             case OW :
               theElemP->value->ow = NULL;
               break;
+            default:
+              break;
           } /* switch */
       
           efree3 ((void **) &(theElemP->value));
@@ -2674,6 +2689,9 @@ InitGroup3 (int inGroupEnum, SElement *ioElemP)
     case Group41 :
       init_group41 (ioElemP);
       break;
+	case Group42 :
+      init_group42 (ioElemP);
+      break;
     case Group50 :
       init_group50 (ioElemP);
       break;
@@ -2694,6 +2712,9 @@ InitGroup3 (int inGroupEnum, SElement *ioElemP)
       break;
     case Group2000 :
       init_group2000 (ioElemP);
+      break;
+	  case Group2001 :
+      init_group2001 (ioElemP);
       break;
     case Group2010 :
       init_group2010 (ioElemP);
@@ -2757,6 +2778,9 @@ InitGroup3 (int inGroupEnum, SElement *ioElemP)
       break;
     case Group6000 :
       init_group6000 (ioElemP);
+      break;
+	  case Group7053 :
+      init_group7053 (ioElemP);
       break;
     case Group7FE0 :
       init_group7FE0 (ioElemP);

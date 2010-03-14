@@ -52,7 +52,7 @@
 /*             04.2001  version 3.7                                             */
 /*             09.2001  version 3.7  on CVS                                     */
 /*             10.2001  version 3.71 MAJ Dicom par CHG                          */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 #ifdef Mac
@@ -1527,6 +1527,139 @@ init_group8 (SElement ioElem [])
   theWrkP->type_t = T3;
   theWrkP->nb_val = 0;
   theWrkP->value = NULL;
+  
+	// Sup.49
+	
+ theWrkP = &ioElem [papFrameType];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9007;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "4";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papReferencedRawDataSequence];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9121;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papCreatorVersionUID];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9123;
+ theWrkP->length = 0L;
+ theWrkP->vr = UI;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDerivationImageSequence];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9124;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papReferringImageEvidenceSequence];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9092;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSourceImageEvidenceSequence];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9154;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papPixelPresentation];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9205;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papVolumetricProperties];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9206;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papVolumeBasedCalculationTechnique];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9207;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papComplexImageComponent];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9208;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papAcquisitionContrast];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9209;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDerivationCodeSequence];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9215;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papReferencedGrayscalePresentationStateSequence];
+ theWrkP->group = 0x0008;
+ theWrkP->element = 0x9237;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+  
 
 } /* endof init_group8 */
 
@@ -5136,6 +5269,1397 @@ init_group18 (SElement ioElem [])
   theWrkP->nb_val = 0;
   theWrkP->value = NULL;
 
+	// sup.49
+
+ theWrkP = &ioElem [papContentQualification];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9004;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papPulseSequenceName];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9005;
+ theWrkP->length = 0L;
+ theWrkP->vr = SH;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRImagingModifierSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9006;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papEchoPulseSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9008;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papInversionRecovery];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9009;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFlowCompensation];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9010;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMultipleSpinEcho];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9011;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMultiPlanarExcitation];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9012;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papPhaseContrast];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9014;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTimeOfFlightContrast];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9015;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpoiling];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9016;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSteadyStatePulseSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9017;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papEchoPlanarPulseSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9018;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTagAngleFirstAxis];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9019;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMagnetizationTransfer];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9020;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papT2Preparation];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9021;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papBloodSignalNulling];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9022;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSaturationRecovery];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9024;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpectrallySelectedSuppression];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9025;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpectrallySelectedExcitation];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9026;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpatialPreSaturation];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9027;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTagging];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9028;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papOversamplingPhase];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9029;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTagSpacingFirstDimension];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9030;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papGeometryOfKSpaceTraversal];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9032;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSegmentedKSpaceTraversal];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9033;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papRectilinearPhaseEncodeReordering];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9034;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTagThickness];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9035;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papPartialFourierDirection];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9036;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papGatingSynchronizationTechnique];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9037;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papReceiveCoilManufacturerName];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9041;
+ theWrkP->length = 0L;
+ theWrkP->vr = LO;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRReceiveCoilSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9042;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papReceiveCoilType];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9043;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papQuadratureReceiveCoil];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9044;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMultiCoilDefinitionSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9045;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMultiCoilConfiguration];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9046;
+ theWrkP->length = 0L;
+ theWrkP->vr = LO;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMultiCoilElementName];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9047;
+ theWrkP->length = 0L;
+ theWrkP->vr = SH;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMultiCoilElementUsed];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9048;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRTransmitCoilSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9049;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTransmitCoilManufacturerName];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9050;
+ theWrkP->length = 0L;
+ theWrkP->vr = LO;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTransmitCoilType];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9051;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpectralWidth];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9052;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1-2";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papChemicalShiftReference];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9053;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1-2";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papVolumeLocalizationTechnique];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9054;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRAcquisitionFrequencyEncodingSteps];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9058;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDecoupling];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9059;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDecoupledNucleus];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9060;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1-2";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDecouplingFrequency];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9061;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1-2";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDecouplingMethod];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9062;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDecouplingChemicalShiftReference];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9063;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1-2";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papKSpaceFiltering];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9064;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTimeDomainFiltering];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9065;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1-2";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papNumberOfZeroFills];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9066;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1-2";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papBaselineCorrection];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9067;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papCardiacRRIntervalSpecified];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9070;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papAcquisitionDuration];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9073;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFrameAcquisitionDatetime];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9074;
+ theWrkP->length = 0L;
+ theWrkP->vr = DT;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDiffusionDirectionality];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9075;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDiffusionGradientDirectionSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9076;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papParallelAcquisition];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9077;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papParallelAcquisitionTechnique];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9078;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papInversionTimes];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9079;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1-n";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMetaboliteMapDescription];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9080;
+ theWrkP->length = 0L;
+ theWrkP->vr = ST;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papPartialFourier];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9081;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papEffectiveEchoTime];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9082;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papChemicalShiftSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9084;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papCardiacSignalSource];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9085;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDiffusionBValue];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9087;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDiffusionGradientOrientation];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9089;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "3";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papVelocityEncodingDirection];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9090;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "3";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papVelocityEncodingMinimumValue];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9091;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papNumberOfKSpaceTrajectories];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9093;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papCoverageOfKSpace];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9094;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpectroscopyAcquisitionPhaseRows];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9095;
+ theWrkP->length = 0L;
+ theWrkP->vr = UL;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papParallelReductionFactorInPlane];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9096;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTransmitterFrequency];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9098;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1-2";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papResonantNucleus];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9100;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1-2";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFrequencyCorrection];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9101;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRSpectroscopyFOVGeometrySequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9103;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSlabThickness];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9104;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSlabOrientation];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9105;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "3";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMidSlabPosition];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9106;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "3";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRSpatialSaturationSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9107;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRTimingAndRelatedParametersSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9112;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMREchoSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9114;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRModifierSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9115;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRDiffusionSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9117;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papCardiacTriggerSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9118;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRAveragesSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9119;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRFOVGeometrySequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9125;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpectroscopyAcquisitionDataColumns];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9127;
+ theWrkP->length = 0L;
+ theWrkP->vr = UL;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papVolumeLocalizationSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9126;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDiffusionAnisotropyType];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9147;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFrameReferenceDatetime];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9151;
+ theWrkP->length = 0L;
+ theWrkP->vr = DT;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMetaboliteMapSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9152;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papParallelReductionFactorOutOfPlane];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9155;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpectroscopyAcquisitionOutOfPlanePhaseSteps];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9159;
+ theWrkP->length = 0L;
+ theWrkP->vr = UL;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papBulkMotionStatus];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9166;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papParallelReductionFactorSecondInPlane];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9168;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papCardiacBeatRejectionTechnique];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9169;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papRespiratoryMotionCompensation];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9170;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papRespiratorySignalSource];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9171;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papBulkMotionCompensationTechnique];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9172;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papBulkMotionSignal];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9173;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papApplicableSafetyStandardAgency];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9174;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papApplicableSafetyStandardVersion];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9175;
+ theWrkP->length = 0L;
+ theWrkP->vr = LO;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papOperationModeSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9176;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papOperatingModeType];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9177;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papOperationMode];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9178;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpecificAbsorptionRateDefinition];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9179;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papGradientOutputType];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9180;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpecificAbsorptionRateValue];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9181;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papGradientOutput];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9182;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFlowCompensationDirection];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9183;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTaggingDelay];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9184;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papChemicalShiftsMinimumIntegrationLimit];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9195;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papChemicalShiftsMaximumIntegrationLimit];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9196;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRVelocityEncodingSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9197;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFirstOrderPhaseCorrection];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9198;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papWaterReferencedPhaseCorrection];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9199;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRSpectroscopyAcquisitionType];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9200;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papRespiratoryMotionStatus];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9214;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papVelocityEncodingMaximumValue];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9217;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTagSpacingSecondDimension];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9218;
+ theWrkP->length = 0L;
+ theWrkP->vr = SS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTagAngleSecondAxis];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9219;
+ theWrkP->length = 0L;
+ theWrkP->vr = SS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFrameAcquisitionDuration];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9220;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRImageFrameTypeSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9226;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRSpectroscopyFrameTypeSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9227;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRAcquisitionPhaseEncodingStepsInPlane];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9231;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papMRAcquisitionPhaseEncodingStepsOutOfPlane];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9232;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpectroscopyAcquisitionPhaseColumns];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9234;
+ theWrkP->length = 0L;
+ theWrkP->vr = UL;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papCardiacMotionStatus];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9236;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSpecificAbsorptionRateSequence];
+ theWrkP->group = 0x0018;
+ theWrkP->element = 0x9239;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+  theWrkP = &ioElem [papRevolutionTime];
+  theWrkP->group = 0x0018;
+  theWrkP->element = 0x9305;
+  theWrkP->length = 0L;
+  theWrkP->vr = FD;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+
+  theWrkP = &ioElem [papSingleCollimationWidth];
+  theWrkP->group = 0x0018;
+  theWrkP->element = 0x9306;
+  theWrkP->length = 0L;
+  theWrkP->vr = FD;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+
+  theWrkP = &ioElem [papTotalCollimationWidth];
+  theWrkP->group = 0x0018;
+  theWrkP->element = 0x9307;
+  theWrkP->length = 0L;
+  theWrkP->vr = FD;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+  
+  theWrkP = &ioElem [papTableSpeed];
+  theWrkP->group = 0x0018;
+  theWrkP->element = 0x9309;
+  theWrkP->length = 0L;
+  theWrkP->vr = FD;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+  
+  theWrkP = &ioElem [papTableFeedPerRotation];
+  theWrkP->group = 0x0018;
+  theWrkP->element = 0x9310;
+  theWrkP->length = 0L;
+  theWrkP->vr = FD;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+  
+  theWrkP = &ioElem [papSpiralPitchFactor];
+  theWrkP->group = 0x0018;
+  theWrkP->element = 0x9311;
+  theWrkP->length = 0L;
+  theWrkP->vr = FD;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
 } /* endof init_group18 */
 
 
@@ -5710,6 +7234,238 @@ init_group20 (SElement ioElem [])
   theWrkP->nb_val = 0;
   theWrkP->value = NULL;
 
+	// SUP.49
+
+ theWrkP = &ioElem [papStackID];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9056;
+ theWrkP->length = 0L;
+ theWrkP->vr = SH;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papInStackPositionNumber];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9057;
+ theWrkP->length = 0L;
+ theWrkP->vr = UL;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFrameAnatomySequence];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9071;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFrameLaterality];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9072;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFrameContentSequence];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9111;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papPlanePositionSequence];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9113;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papPlaneOrientationSequence];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9116;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTemporalPositionIndex];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9128;
+ theWrkP->length = 0L;
+ theWrkP->vr = UL;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papTriggerDelayTime];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9153;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFrameAcquisitionNumber];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9156;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDimensionIndexValues];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9157;
+ theWrkP->length = 0L;
+ theWrkP->vr = UL;
+ theWrkP->vm = "1-n";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFrameComments];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9158;
+ theWrkP->length = 0L;
+ theWrkP->vr = LT;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papConcatenationUID];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9161;
+ theWrkP->length = 0L;
+ theWrkP->vr = UI;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papInConcatenationNumber];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9162;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papInConcatenationTotalNumber];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9163;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDimensionOrganizationUID];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9164;
+ theWrkP->length = 0L;
+ theWrkP->vr = UI;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDimensionIndexPointer];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9165;
+ theWrkP->length = 0L;
+ theWrkP->vr = AT;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFunctionalGroupSequencePointer];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9167;
+ theWrkP->length = 0L;
+ theWrkP->vr = AT;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDimensionIndexPrivateCreator];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9213;
+ theWrkP->length = 0L;
+ theWrkP->vr = LO;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDimensionOrganizationSequence];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9221;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDimensionSequence];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9222;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papConcatenationFrameOffsetNumber];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9228;
+ theWrkP->length = 0L;
+ theWrkP->vr = UL;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFunctionalGroupPrivateCreator];
+ theWrkP->group = 0x0020;
+ theWrkP->element = 0x9238;
+ theWrkP->length = 0L;
+ theWrkP->vr = LO;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+  
 } /* endof init_group20 */
 
 
@@ -6564,7 +8320,99 @@ init_group28 (SElement ioElem [])
   theWrkP->type_t = T3;
   theWrkP->nb_val = 0;
   theWrkP->value = NULL;
+  
+	// SUP.49
+	
+ theWrkP = &ioElem [papDataPointRows];
+ theWrkP->group = 0x0028;
+ theWrkP->element = 0x9001;
+ theWrkP->length = 0L;
+ theWrkP->vr = UL;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
 
+ theWrkP = &ioElem [papDataPointColumns];
+ theWrkP->group = 0x0028;
+ theWrkP->element = 0x9002;
+ theWrkP->length = 0L;
+ theWrkP->vr = UL;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSignalDomain];
+ theWrkP->group = 0x0028;
+ theWrkP->element = 0x9003;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1-2";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papLargestMonochromePixelValue];
+ theWrkP->group = 0x0028;
+ theWrkP->element = 0x9099;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papDataRepresentation];
+ theWrkP->group = 0x0028;
+ theWrkP->element = 0x9108;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papPixelMatrixSequence];
+ theWrkP->group = 0x0028;
+ theWrkP->element = 0x9110;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papFrameVOILUTSequence];
+ theWrkP->group = 0x0028;
+ theWrkP->element = 0x9132;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papPixelValueTransformationSequence];
+ theWrkP->group = 0x0028;
+ theWrkP->element = 0x9145;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSignalDomainRows];
+ theWrkP->group = 0x0028;
+ theWrkP->element = 0x9235;
+ theWrkP->length = 0L;
+ theWrkP->vr = CS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+ 
 } /* endof init_Group28 */
 
 
@@ -8711,6 +10559,76 @@ init_group40 (SElement ioElem [])
   theWrkP->nb_val = 0;
   theWrkP->value = NULL;
 
+ theWrkP = &ioElem [papRealWorldValueMappingSequence];
+ theWrkP->group = 0x0040;
+ theWrkP->element = 0x9096;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papLUTLabel];
+ theWrkP->group = 0x0040;
+ theWrkP->element = 0x9210;
+ theWrkP->length = 0L;
+ theWrkP->vr = SS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papRealWorldValueLUTLastValueMapped];
+ theWrkP->group = 0x0040;
+ theWrkP->element = 0x9211;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papRealWorldValueLUTData];
+ theWrkP->group = 0x0040;
+ theWrkP->element = 0x9212;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1-n";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papRealWorldValueLUTFirstValueMapped];
+ theWrkP->group = 0x0040;
+ theWrkP->element = 0x9216;
+ theWrkP->length = 0L;
+ theWrkP->vr = USS;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papRealWorldValueIntercept];
+ theWrkP->group = 0x0040;
+ theWrkP->element = 0x9224;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papRealWorldValueSlope];
+ theWrkP->group = 0x0040;
+ theWrkP->element = 0x9225;
+ theWrkP->length = 0L;
+ theWrkP->vr = FD;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+ 
 } /* endof init_group40 */
 
 
@@ -8888,6 +10806,69 @@ init_group41 (SElement ioElem [])
   theWrkP->value = NULL;
 
 } /* endof init_group41 */
+
+
+/********************************************************************************/
+/*										*/
+/*	init_group42 : initializes the elements of the group 42			*/
+/*										*/
+/********************************************************************************/
+
+void
+init_group42 (SElement ioElem [])
+{
+  SElement	*theWrkP;
+  
+  theWrkP = &ioElem [papGroupLength];
+  theWrkP->group = 0x0042;
+  theWrkP->element = 0x0000;
+  theWrkP->length = 0L;
+  theWrkP->vr = UL;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+
+  theWrkP = &ioElem [papDocumentTitleGr];
+  theWrkP->group = 0x0042;
+  theWrkP->element = 0x0010;
+  theWrkP->length = 0L;
+  theWrkP->vr = ST;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+
+  theWrkP = &ioElem [papEncapsulatedDocumentGr];
+  theWrkP->group = 0x0042;
+  theWrkP->element = 0x0011;
+  theWrkP->length = 0L;
+  theWrkP->vr = OB;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+
+  theWrkP = &ioElem [papMIMETypeOfEncapsulatedDocumentGr];
+  theWrkP->group = 0x0042;
+  theWrkP->element = 0x0012;
+  theWrkP->length = 0L;
+  theWrkP->vr = LO;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+
+  theWrkP = &ioElem [papSourceInstanceSequenceGr];
+  theWrkP->group = 0x0042;
+  theWrkP->element = 0x0013;
+  theWrkP->length = 0L;
+  theWrkP->vr = SQ;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+} /* endof init_group42 */
 
 
 /********************************************************************************/
@@ -10645,6 +12626,50 @@ init_group2000 (SElement ioElem [])
   theWrkP->value = NULL;
 
 } /* endof init_group2000 */
+
+
+/********************************************************************************/
+/*										*/
+/*	init_group2001 : initializes the elements of the group 2001		*/
+/*										*/
+/********************************************************************************/
+
+void
+init_group2001 (SElement ioElem [])
+{
+  SElement	*theWrkP;
+
+  theWrkP = &ioElem [papGroupLength];
+  theWrkP->group = 0x2001;
+  theWrkP->element = 0x0000;
+  theWrkP->length = 0L;
+  theWrkP->vr = UL;
+  theWrkP->vm = "1";
+  theWrkP->type_t = RET;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+
+  theWrkP = &ioElem [pap2001CineIndexGr];
+  theWrkP->group = 0x2001;
+  theWrkP->element = 0x1008;
+  theWrkP->length = 0L;
+  theWrkP->vr = DS;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+
+  theWrkP = &ioElem [pap2001PositionIndexGr];
+  theWrkP->group = 0x2001;
+  theWrkP->element = 0x100A;
+  theWrkP->length = 0L;
+  theWrkP->vr = DS;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+  
+} /* endof init_group2001 */
 
 
 /********************************************************************************/
@@ -16586,6 +18611,48 @@ init_group5000 (SElement ioElem [])
 
 } /* endof init_group5000 */
 
+/********************************************************************************/
+/*										*/
+/*	init_group5200 : initializes the elements of the group 5200		*/
+/*										*/
+/********************************************************************************/
+
+void
+init_group5200 (SElement ioElem [])
+{
+  SElement	*theWrkP;
+
+  theWrkP = &ioElem [papGroupLength];
+  theWrkP->group = 0x5200;
+  theWrkP->element = 0x0000;
+  theWrkP->length = 0L;
+  theWrkP->vr = UL;
+  theWrkP->vm = "1";
+  theWrkP->type_t = RET;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papSharedFunctionalGroupsSequence];
+ theWrkP->group = 0x5200;
+ theWrkP->element = 0x9229;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+
+ theWrkP = &ioElem [papPerFrameFunctionalGroupsSequence];
+ theWrkP->group = 0x5200;
+ theWrkP->element = 0x9230;
+ theWrkP->length = 0L;
+ theWrkP->vr = SQ;
+ theWrkP->vm = "1";
+ theWrkP->type_t = T3;
+ theWrkP->nb_val = 0;
+ theWrkP->value = NULL;
+ 
+} /* endof init_group5200 */
 
 /********************************************************************************/
 /*										*/
@@ -16680,6 +18747,42 @@ init_group5400 (SElement ioElem [])
 
 } /* endof init_group5400 */
 
+//void
+//init_group5600 (SElement ioElem [])
+//{
+//  SElement	*theWrkP;
+//
+//  theWrkP = &ioElem [papGroupLength];
+//  theWrkP->group = 0x5600;
+//  theWrkP->element = 0x0000;
+//  theWrkP->length = 0L;
+//  theWrkP->vr = UL;
+//  theWrkP->vm = "1";
+//  theWrkP->type_t = RET;
+//  theWrkP->nb_val = 0;
+//  theWrkP->value = NULL;
+//
+// theWrkP = &ioElem [papFirstOrderPhaseCorrectionAngle];
+// theWrkP->group = 0x5600;
+// theWrkP->element = 0x0010;
+// theWrkP->length = 0L;
+// theWrkP->vr = OF;
+// theWrkP->vm = "1";
+// theWrkP->type_t = T3;
+// theWrkP->nb_val = 0;
+// theWrkP->value = NULL;
+//
+// theWrkP = &ioElem [papSpectroscopyData];
+// theWrkP->group = 0x5600;
+// theWrkP->element = 0x0020;
+// theWrkP->length = 0L;
+// theWrkP->vr = OF;
+// theWrkP->vm = "1";
+// theWrkP->type_t = T3;
+// theWrkP->nb_val = 0;
+// theWrkP->value = NULL;
+// 
+// } /* endof init_group5600 */
 
 /********************************************************************************/
 /*										*/
@@ -17003,6 +19106,39 @@ init_group6000 (SElement ioElem [])
   theWrkP->value = NULL;
 
 } /* endof init_group6000 */
+
+/********************************************************************************/
+/*										*/
+/*	init_group7053 : initializes the elements of the group 7053		*/
+/*										*/
+/********************************************************************************/
+
+void
+init_group7053 (SElement ioElem [])
+{
+  SElement	*theWrkP;
+
+  theWrkP = &ioElem [papGroupLength];
+  theWrkP->group = 0x7053;
+  theWrkP->element = 0x0000;
+  theWrkP->length = 0L;
+  theWrkP->vr = UL;
+  theWrkP->vm = "1";
+  theWrkP->type_t = RET;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+  
+  theWrkP = &ioElem [papSUVFactor7053Gr];
+  theWrkP->group = 0x7053;
+  theWrkP->element = 0x1000;
+  theWrkP->length = 0L;
+  theWrkP->vr = DS;
+  theWrkP->vm = "1";
+  theWrkP->type_t = T3;
+  theWrkP->nb_val = 0;
+  theWrkP->value = NULL;
+
+} /* endof init_group7053 */
 
 
 /******************************************************************************/

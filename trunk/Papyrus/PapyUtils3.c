@@ -489,12 +489,12 @@ ExtractModality (UValue_T *inValP, PapyShort inFileNb)
   if (inValP != NULL)
   {
 
-		if( strlen( inValP->a) > 8)
-		{ 
-			printf( "***** ExtractModality modality len > 8 ??");
-			gFileModality[ inFileNb] = SEC_CAPT_IM;
-			return;
-		}
+    if( strlen( inValP->a) > 8)
+    { 
+      //printf( "***** ExtractModality modality len > 8 ??");
+      gFileModality[ inFileNb] = SEC_CAPT_IM;
+      return;
+    }
 
     strcpy (theModality, inValP->a);
     switch (theModality [0])

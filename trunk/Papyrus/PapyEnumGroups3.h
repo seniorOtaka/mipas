@@ -52,7 +52,7 @@
 /*             04.2001	version 3.7                                             */
 /*             09.2001  version 3.7   on CVS                                    */
 /*             10.2001  version 3.71  MAJ Dicom par CHG                         */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 
@@ -88,6 +88,7 @@ Group38,
 Group3A,
 Group40,
 Group41,
+Group42,
 Group50,
 Group54,
 Group60,
@@ -95,6 +96,7 @@ Group70,
 Group88,
 Group100,
 Group2000,
+Group2001,
 Group2010,
 Group2020,
 Group2030,
@@ -114,9 +116,11 @@ Group300E,
 Group4000,
 Group4008,
 Group5000,
+Group5200,
 Group5400,
 Group6000,
 UINOVERLAY,
+Group7053,
 Group7FE0,
 END_GROUP
 };

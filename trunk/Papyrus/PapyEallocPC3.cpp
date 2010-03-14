@@ -54,7 +54,7 @@
 /*             04.2001	version 3.7                                             */
 /*             09.2001	version 3.7   on CVS                                    */
 /*             10.2001  version 3.71  MAJ Dicom par CHG                         */
-/*                                                                              */
+/*             03.2010  Fuli Wu                                                 */
 /********************************************************************************/
 
 
@@ -154,6 +154,8 @@ extern "C" void * checkvp3 (void *pointer)
 
 extern "C" void *emalloc3 (PapyULong size)
 {
+  size = size+12;
+
 #ifdef GB_ALLOC
     void __huge* ptr;
     HGLOBAL hglb;
@@ -181,6 +183,8 @@ extern "C" void *emalloc3 (PapyULong size)
 
 extern "C" void *ecalloc3 (PapyULong nelem, PapyULong elsize)
 {
+  elsize = elsize + 12;
+
 #ifdef GB_ALLOC
   void __far* ptr;
 	HGLOBAL hglb;
@@ -212,6 +216,8 @@ extern "C" void *ecalloc3 (PapyULong nelem, PapyULong elsize)
 
 extern "C" void *erealloc3 (void* ptr, PapyULong size,PapyULong size2)
 {
+  size = size+12;
+
 #ifdef GB_ALLOC
     HGLOBAL hglb;
 	DWORD dw;
